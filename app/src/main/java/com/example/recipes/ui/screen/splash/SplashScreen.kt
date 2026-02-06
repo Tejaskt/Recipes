@@ -5,13 +5,18 @@ package com.example.recipes.ui.screen.splash
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -24,9 +29,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.recipes.ui.theme.RecipesTheme
 import com.example.recipes.R
@@ -54,19 +61,19 @@ fun SplashScreen(
             ),
         contentAlignment = Alignment.Center
     ) {
-        val iconSize = maxWidth * 0.22f   // responsive
+        val iconSize = maxWidth * 0.22f
         val logoSize = maxWidth * 0.7f
 
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+            verticalArrangement = Arrangement.Center,
+            modifier = Modifier.fillMaxWidth().widthIn(max = 420.dp)
         ) {
             Icon(
                 painter = painterResource(R.drawable.chef_hat),
                 contentDescription = null,
                 tint = Color.White,
-                modifier = Modifier
-                    .size(iconSize)
+                modifier = Modifier.size(iconSize)
                     .background(
                         Color.White.copy(0.2f),
                         RoundedCornerShape(iconSize / 3)
@@ -105,7 +112,7 @@ fun SplashScreen(
 @Composable
 private fun PrevSplash() {
     RecipesTheme {
-        BoxWithConstraints(
+        Box(
             modifier = Modifier
                 .fillMaxSize()
                 .background(
@@ -118,9 +125,6 @@ private fun PrevSplash() {
                 ),
             contentAlignment = Alignment.Center
         ) {
-            val iconSize = maxWidth * 0.22f   // responsive
-            val logoSize = maxWidth * 0.7f
-
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
@@ -130,15 +134,15 @@ private fun PrevSplash() {
                     contentDescription = null,
                     tint = Color.White,
                     modifier = Modifier
-                        .size(iconSize)
+                        .size(64.dp)
                         .background(
                             Color.White.copy(0.2f),
-                            RoundedCornerShape(iconSize / 3)
+                            shape = MaterialTheme.shapes.large
                         )
-                        .padding(iconSize * 0.12f)
+                        .padding(10.dp)
                 )
 
-                Spacer(Modifier.height(this@BoxWithConstraints.maxHeight * 0.03f))
+                Spacer(Modifier.height(16.dp))
 
                 Text(
                     text = "Recipify",
@@ -146,7 +150,7 @@ private fun PrevSplash() {
                     color = Color.White
                 )
 
-                Spacer(Modifier.height(this@BoxWithConstraints.maxHeight * 0.015f))
+                Spacer(Modifier.height(16.dp))
 
                 Text(
                     text = "Discover Delicious Recipes",
@@ -154,16 +158,14 @@ private fun PrevSplash() {
                     color = Color.White.copy(alpha = 0.8f)
                 )
 
-                Spacer(Modifier.height(this@BoxWithConstraints.maxHeight * 0.06f))
+                Spacer(Modifier.height(16.dp))
 
                 Image(
                     painter = painterResource(R.drawable.splash_logo),
                     contentDescription = null,
-                    modifier = Modifier.size(logoSize)
+                    modifier = Modifier.fillMaxWidth().aspectRatio(1.5f)
                 )
             }
         }
-
-
     }
 }

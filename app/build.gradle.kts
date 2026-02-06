@@ -59,6 +59,8 @@ dependencies {
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.compose.runtime)
     implementation(libs.androidx.compose.foundation.layout)
+    implementation(libs.androidx.material3)
+    implementation(libs.androidx.compose.runtime.saveable)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -89,6 +91,9 @@ dependencies {
     // okhttp
     implementation(libs.okhttp)
     implementation(libs.logging.interceptor)
+
+    // icons
+    implementation(libs.androidx.compose.material.icons.extended)
 
 
 }
