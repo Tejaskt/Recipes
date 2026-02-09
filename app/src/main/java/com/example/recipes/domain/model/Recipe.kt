@@ -1,4 +1,14 @@
 package com.example.recipes.domain.model
 
-class Recipe {
-}
+data class Recipe (
+    val id : Int,
+    val title : String,
+    val imageUrl : String,
+    val cuisine : String,
+    val time : String,
+    val calories : String,
+    val rating : Double,
+    val servings : String,
+    val mealType: List<String>,
+    val difficulty : String
+)

@@ -1,3 +1,5 @@
+@file:Suppress("unused", "unused", "unused", "unused", "unused")
+
 package com.example.recipes.ui.theme
 
 import androidx.compose.ui.graphics.Color
@@ -13,6 +15,7 @@ val CreamBackground = Color(0xFFFFF6EE)
 val CardSurface = Color(0xFFFFFFFF)
 val TextPrimary = Color(0xFF1C1B1F)
 val TextSecondary = Color(0xFF6F6F6F)
+val TextTertiary = Color(0xFF634d42)
 
 // Dark theme (later use)
 val DarkBackground = Color(0xFF121212)

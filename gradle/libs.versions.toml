@@ -1,5 +1,7 @@
 [versions]
 agp = "8.13.2"
+coilCompose = "3.2.0"
+coilNetworkOkhttp = "3.2.0"
 converterGson = "2.11.0"
 kotlin = "2.0.21"
 coreKtx = "1.17.0"
@@ -20,6 +22,7 @@ runtimeVersion = "1.10.1"
 foundationLayout = "1.10.2"
 material3 = "1.4.0"
 runtimeSaveable = "1.10.2"
+androidxRuntime = "1.10.2"
 
 
 
@@ -27,6 +30,8 @@ runtimeSaveable = "1.10.2"
 androidx-compose-material-icons-extended = { module = "androidx.compose.material:material-icons-extended" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose" }
+coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coilCompose" }
+coil-network-okhttp = { module = "io.coil-kt.coil3:coil-network-okhttp", version.ref = "coilNetworkOkhttp" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "converterGson" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
@@ -45,14 +50,18 @@ logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", ver
 okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 androidx-navigation-compose = {group = "androidx.navigation",name = "navigation-compose",version.ref = "navigationCompose"}
+#noinspection SimilarGradleDependency
 androidx-compose-runtime = { group = "androidx.compose.runtime", name = "runtime", version.ref = "runtime" }
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hilt" }
 hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
+#noinspection SimilarGradleDependency
 androidx-runtime = { group = "androidx.compose.runtime", name = "runtime", version.ref = "runtimeVersion" }
 androidx-compose-foundation-layout = { group = "androidx.compose.foundation", name = "foundation-layout", version.ref = "foundationLayout" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "material3" }
 androidx-compose-runtime-saveable = { group = "androidx.compose.runtime", name = "runtime-saveable", version.ref = "runtimeSaveable" }
+#noinspection SimilarGradleDependency
+runtime = { group = "androidx.compose.runtime", name = "runtime", version.ref = "androidxRuntime" }
 
 
 [plugins]
