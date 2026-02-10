@@ -1,8 +1,9 @@
 package com.example.recipes.domain.repository
 
+import androidx.paging.PagingData
 import com.example.recipes.domain.model.Recipe
-import com.example.recipes.utils.NetworkResult
+import kotlinx.coroutines.flow.Flow
 
 interface RecipeRepository {
-    suspend fun getRecipes(): NetworkResult<List<Recipe>>
+    fun getRecipes(category: String): Flow<PagingData<Recipe>>
 }

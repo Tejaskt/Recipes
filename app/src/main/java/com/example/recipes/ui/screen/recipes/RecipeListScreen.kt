@@ -22,11 +22,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.paging.LoadState
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.example.recipes.domain.model.Recipe
 import com.example.recipes.ui.screen.recipes.components.BottomNavBar
 import com.example.recipes.ui.screen.recipes.components.CategoryChips
+import com.example.recipes.ui.screen.recipes.components.ErrorItem
 import com.example.recipes.ui.screen.recipes.components.FeaturedRecipeCard
 import com.example.recipes.ui.screen.recipes.components.GreetingSection
+import com.example.recipes.ui.screen.recipes.components.LoadingItem
 import com.example.recipes.ui.screen.recipes.components.RecipeCard
 import com.example.recipes.ui.screen.recipes.components.SectionHeader
 
@@ -35,8 +39,9 @@ import com.example.recipes.ui.screen.recipes.components.SectionHeader
 fun RecipeListScreen(
     viewModel: RecipeViewModel = hiltViewModel()
 ) {
-    val uiState by viewModel.uiState.collectAsState()
-    val filterState by viewModel.filterState.collectAsState()
+
+    val recipes = viewModel.recipes.collectAsLazyPagingItems()
+    val selectedCategory by viewModel.selectedCategory.collectAsState()
 
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background,
@@ -44,42 +49,45 @@ fun RecipeListScreen(
         contentWindowInsets = WindowInsets.safeDrawing
     ) { padding ->
 
-        when (uiState) {
-            RecipeUiState.Loading -> {
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(padding),
-                    contentAlignment = Alignment.Center
-                ) {
-                    CircularProgressIndicator()
-                }
-            }
+        LazyColumn(
+            modifier = Modifier
+                .padding(padding)
+                .padding(horizontal = 16.dp)
+        ) {
+            item{
+                GreetingSection()
+                Spacer(Modifier.height(16.dp))
 
-            is RecipeUiState.Error -> {
-                val message = (uiState as RecipeUiState.Error).message
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(padding),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(text = "Error : $message")
-                }
-            }
-
-            is RecipeUiState.Success -> {
-                val recipes = (uiState as RecipeUiState.Success).recipes
-                RecipeListContent(
-                    recipes = recipes,
-                    selectedCategory = filterState.selectedCategory,
-                    onCategorySelected = viewModel::onCategorySelected,
-                    modifier = Modifier.padding(padding)
+                CategoryChips(
+                    selectedCategory = selectedCategory,
+                    onCategorySelected = viewModel::onCategorySelected
                 )
+                Spacer(Modifier.height(20.dp))
+            }
+
+            items(recipes.itemCount) { index ->
+                recipes[index]?.let {
+                    RecipeCard(it)
+                    Spacer(Modifier.height(16.dp))
+                }
+            }
+
+            // Paging states
+            when {
+                recipes.loadState.refresh is LoadState.Loading -> {
+                    item { LoadingItem() }
+                }
+                recipes.loadState.append is LoadState.Loading -> {
+                    item { LoadingItem() }
+                }
+                recipes.loadState.refresh is LoadState.Error -> {
+                    item { ErrorItem("Failed to load recipes") }
+                }
             }
         }
     }
 }
+
 
 @Composable
 fun RecipeListContent(
