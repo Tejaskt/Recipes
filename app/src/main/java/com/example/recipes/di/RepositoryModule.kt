@@ -1,5 +1,6 @@
 package com.example.recipes.di
 
+import com.example.recipes.data.local.AuthDataStore
 import com.example.recipes.data.remote.api.AuthApi
 import com.example.recipes.data.remote.api.RecipeApi
 import com.example.recipes.data.repository.AuthRepositoryImpl
@@ -19,8 +20,12 @@ object RepositoryModule {
     @Provides
     @Singleton
     fun provideAuthRepository(
-        api: AuthApi
-    ): AuthRepository = AuthRepositoryImpl(api)
+        api: AuthApi,
+        authDataStore: AuthDataStore
+    ): AuthRepository = AuthRepositoryImpl(
+        api,
+        authDataStore
+    )
 
     @Provides
     @Singleton

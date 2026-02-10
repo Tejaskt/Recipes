@@ -1,17 +1,19 @@
 package com.example.recipes.data.repository
 
+import com.example.recipes.data.local.AuthDataStore
 import com.example.recipes.data.remote.api.AuthApi
 import com.example.recipes.data.remote.dto.LoginRequestDto
 import com.example.recipes.domain.repository.AuthRepository
 import com.example.recipes.utils.NetworkResult
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import okio.IOException
 import javax.inject.Inject
 
 class AuthRepositoryImpl @Inject constructor(
-    private val api: AuthApi
+    private val api: AuthApi,
+    private val authDataStore: AuthDataStore
 ): AuthRepository {
-
-    private var cachedToken: String? = null
 
     override suspend fun login(
         username: String,
@@ -22,13 +24,10 @@ class AuthRepositoryImpl @Inject constructor(
            val response = api.login(LoginRequestDto(username, password))
 
            if (response.isSuccessful){
-               val body = response.body()
-               if(body!= null){
-                   cachedToken = body.accessToken
+               response.body()?.let{
+                   authDataStore.saveToken(it.accessToken)
                    NetworkResult.Success(Unit)
-               }else{
-                   NetworkResult.Error("Empty Response")
-               }
+               } ?: NetworkResult.Error("Empty response")
            }else{
                NetworkResult.Error("Invalid credentials")
            }
@@ -39,5 +38,11 @@ class AuthRepositoryImpl @Inject constructor(
        }
     }
 
-    override fun isLoggedIn(): Boolean = cachedToken != null
+    override fun isLoggedIn(): Flow<Boolean> = authDataStore.accessToken.map { token ->
+        !token.isNullOrEmpty()
+    }
+
+    override suspend fun logout() {
+        authDataStore.clearToken()
+    }
 }

@@ -1,6 +1,7 @@
 package com.example.recipes.domain.repository
 
 import com.example.recipes.utils.NetworkResult
+import kotlinx.coroutines.flow.Flow
 
 interface AuthRepository {
     suspend fun login(
@@ -8,5 +9,7 @@ interface AuthRepository {
         password: String
     ): NetworkResult<Unit>
 
-    fun isLoggedIn(): Boolean
+    fun isLoggedIn(): Flow<Boolean>
+
+    suspend fun logout()
 }

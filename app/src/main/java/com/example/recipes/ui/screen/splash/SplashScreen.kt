@@ -38,7 +38,8 @@ import com.example.recipes.R
 
 @Composable
 fun SplashScreen(
-    onNavigate: (Boolean) -> Unit, viewModel: SplashViewModel = hiltViewModel()
+    onNavigate: (Boolean) -> Unit,
+    viewModel: SplashViewModel = hiltViewModel()
 ) {
     val isLoggedIn by viewModel.isLoggedIn.collectAsState()
 

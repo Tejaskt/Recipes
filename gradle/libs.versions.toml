@@ -13,6 +13,8 @@ activityCompose = "1.12.2"
 composeBom = "2024.09.00"
 loggingInterceptor = "4.12.0"
 okhttp = "4.12.0"  # don't update version
+pagingRuntime = "3.3.2"
+pagingCompose = "3.3.2"
 retrofit = "2.11.0"
 navigationCompose = "2.7.7"
 runtime = "1.10.0"
@@ -30,6 +32,8 @@ androidxRuntime = "1.10.2"
 androidx-compose-material-icons-extended = { module = "androidx.compose.material:material-icons-extended" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose" }
+androidx-paging-compose = { module = "androidx.paging:paging-compose", version.ref = "pagingCompose" }
+androidx-paging-runtime = { module = "androidx.paging:paging-runtime", version.ref = "pagingRuntime" }
 coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coilCompose" }
 coil-network-okhttp = { module = "io.coil-kt.coil3:coil-network-okhttp", version.ref = "coilNetworkOkhttp" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "converterGson" }

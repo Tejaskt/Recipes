@@ -101,8 +101,11 @@ dependencies {
     implementation(libs.coil.network.okhttp)
 
     // PAGING 3
-    implementation("androidx.paging:paging-runtime:3.3.2")
-    implementation("androidx.paging:paging-compose:3.3.2")
+    implementation(libs.androidx.paging.runtime)
+    implementation(libs.androidx.paging.compose)
+
+    // Data store
+    implementation("androidx.datastore:datastore-preferences:1.1.1")
 
 
 }
