@@ -33,9 +33,9 @@ class AuthRepositoryImpl @Inject constructor(
                NetworkResult.Error("Invalid credentials")
            }
        }catch (e: IOException){
-           NetworkResult.Error("No internet connection")
+           NetworkResult.Error("No internet connection : $e")
        }catch (e : Exception){
-           NetworkResult.Error("Something went wrong")
+           NetworkResult.Error("Something went wrong : $e")
        }
     }
 

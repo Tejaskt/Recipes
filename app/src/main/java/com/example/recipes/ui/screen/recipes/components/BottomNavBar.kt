@@ -21,14 +21,14 @@ fun BottomNavBar (){
     ) {
 
         NavigationBarItem(
-            selected = false,
+            selected = true,
             onClick = {},
             icon = { Icon(Icons.Outlined.Home, null)},
             label = { Text("Home") }
         )
 
         NavigationBarItem(
-            selected = true,
+            selected = false,
             onClick = {},
             icon = { Icon(Icons.Default.Search, null, tint = MaterialTheme.colorScheme.primary)},
             label = { Text("Search") }

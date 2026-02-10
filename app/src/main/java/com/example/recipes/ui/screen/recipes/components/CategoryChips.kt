@@ -1,6 +1,7 @@
 package com.example.recipes.ui.screen.recipes.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
@@ -15,7 +16,10 @@ import androidx.compose.ui.unit.dp
 import com.example.recipes.ui.theme.TextTertiary
 
 @Composable
-fun CategoryChips() {
+fun CategoryChips(
+    selectedCategory: String,
+    onCategorySelected: (String) -> Unit
+) {
     val categories = listOf("All", "Breakfast", "Lunch", "Dinner", "Snack", "Dessert")
 
     LazyRow(
@@ -24,7 +28,8 @@ fun CategoryChips() {
         items(categories) { category ->
             CategoryChip(
                 text = category,
-                selected = category == "All"
+                selected = category == selectedCategory,
+                onClick = { onCategorySelected(category) }
             )
         }
     }
@@ -33,10 +38,12 @@ fun CategoryChips() {
 @Composable
 fun CategoryChip(
     text: String,
-    selected: Boolean
+    selected: Boolean,
+    onClick: () -> Unit
 ) {
     Box(
         modifier = Modifier
+            .clickable{onClick()}
             .background(
                 if (selected)
                     MaterialTheme.colorScheme.primary
@@ -48,6 +55,7 @@ fun CategoryChip(
     ) {
         Text(
             text = text,
+            style = MaterialTheme.typography.labelMedium,
             color = if (selected)
                 MaterialTheme.colorScheme.onPrimary
             else
