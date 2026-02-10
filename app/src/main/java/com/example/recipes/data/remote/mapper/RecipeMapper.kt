@@ -9,11 +9,15 @@ fun RecipeDto.toDomain() : Recipe {
         title = name,
         imageUrl = image,
         cuisine = cuisine,
-        time = "${prepTimeMinutes + cookTimeMinutes} min",
-        calories = "$caloriesPerServing cal",
+        difficulty = difficulty,
+        prepTime = prepTimeMinutes,
+        cookTime = cookTimeMinutes,
+        servings = servings,
         rating = rating,
-        servings = "$servings servings",
+        ingredients = ingredients,
+        instructions = instructions,
+        calories = "$caloriesPerServing cal",
         mealType = mealType,
-        difficulty = difficulty
+        time = "${prepTimeMinutes + cookTimeMinutes} min"
     )
 }

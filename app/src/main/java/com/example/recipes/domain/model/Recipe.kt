@@ -10,5 +10,9 @@ data class Recipe (
     val rating : Double,
     val servings : String,
     val mealType: List<String>,
-    val difficulty : String
+    val difficulty : String,
+    val prepTime: Int,
+    val cookTime: Int,
+    val ingredients: List<String>,
+    val instructions: List<String>
 )

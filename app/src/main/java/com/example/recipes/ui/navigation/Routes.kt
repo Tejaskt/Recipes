@@ -4,4 +4,6 @@ object Routes {
     const val SPLASH = "splash"
     const val LOGIN = "login"
     const val RECIPE_LIST = "recipe_list"
+    const val RECIPE_DETAIL = "recipe_detail"
+
 }

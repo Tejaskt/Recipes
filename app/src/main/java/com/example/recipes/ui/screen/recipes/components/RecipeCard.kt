@@ -1,6 +1,7 @@
 package com.example.recipes.ui.screen.recipes.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -38,9 +39,12 @@ import com.example.recipes.ui.theme.TextTertiary
 import org.w3c.dom.Text
 
 @Composable
-fun RecipeCard(recipe: Recipe) {
+fun RecipeCard(
+    recipe: Recipe,
+    onClick: (Int) -> Unit
+) {
     Card(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth().clickable{ onClick(recipe.id) },
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
     ) {
@@ -87,7 +91,7 @@ fun RecipeCard(recipe: Recipe) {
                         modifier = Modifier.fillMaxWidth()
                     ) {
                         CardLastRow(Icons.Outlined.AccessTime,recipe.time)
-                        CardLastRow(Icons.Outlined.SupervisorAccount,recipe.servings)
+                        CardLastRow(Icons.Outlined.SupervisorAccount,"${recipe.servings} Servings")
                         CardLastRow(Icons.Outlined.LocalFireDepartment,recipe.calories)
                     }
                 }

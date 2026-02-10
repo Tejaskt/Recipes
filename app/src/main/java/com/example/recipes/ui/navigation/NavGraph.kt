@@ -1,10 +1,13 @@
 package com.example.recipes.ui.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.recipes.ui.screen.auth.LoginScreen
+import com.example.recipes.ui.screen.recipeDetails.RecipeDetailScreen
 import com.example.recipes.ui.screen.recipes.RecipeListScreen
 import com.example.recipes.ui.screen.splash.SplashScreen
 
@@ -40,7 +43,25 @@ fun AppNavGraph()
         }
 
         composable(Routes.RECIPE_LIST) {
-            RecipeListScreen()
+            RecipeListScreen(
+                onRecipeItemClick = { recipeId ->
+                    navController.navigate("${Routes.RECIPE_DETAIL}/${recipeId}")
+            })
+        }
+
+        composable(
+            route = "${Routes.RECIPE_DETAIL}/{recipeId}",
+            arguments = listOf(
+                navArgument("recipeId"){ type = NavType.IntType}
+            )
+        ){
+            RecipeDetailScreen(
+                onBackClick = {
+                    navController.navigate(Routes.RECIPE_LIST){
+                        popUpTo(Routes.RECIPE_DETAIL){inclusive = true}
+                    }
+                }
+            )
         }
     }
 }

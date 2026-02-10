@@ -5,7 +5,7 @@ import androidx.paging.PagingState
 import com.example.recipes.data.remote.api.RecipeApi
 import com.example.recipes.data.remote.mapper.toDomain
 import com.example.recipes.domain.model.Recipe
-import okio.IOException
+
 class RecipePagingSource(
     private val api: RecipeApi,
     private val category: String
