@@ -1,5 +1,6 @@
 package com.example.recipes.domain.repository
 
+import com.example.recipes.domain.model.User
 import com.example.recipes.utils.NetworkResult
 import kotlinx.coroutines.flow.Flow
 
@@ -12,4 +13,6 @@ interface AuthRepository {
     fun isLoggedIn(): Flow<Boolean>
 
     suspend fun logout()
+
+    fun getUser(): Flow<User?>
 }

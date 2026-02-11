@@ -3,6 +3,7 @@ package com.example.recipes.data.repository
 import com.example.recipes.data.local.AuthDataStore
 import com.example.recipes.data.remote.api.AuthApi
 import com.example.recipes.data.remote.dto.LoginRequestDto
+import com.example.recipes.domain.model.User
 import com.example.recipes.domain.repository.AuthRepository
 import com.example.recipes.utils.NetworkResult
 import kotlinx.coroutines.flow.Flow
@@ -24,8 +25,16 @@ class AuthRepositoryImpl @Inject constructor(
            val response = api.login(LoginRequestDto(username, password))
 
            if (response.isSuccessful){
-               response.body()?.let{
-                   authDataStore.saveToken(it.accessToken)
+               response.body()?.let{ dto ->
+                   authDataStore.saveUser(
+                       userNm = dto.username,
+                       firstName = dto.firstName,
+                       lastName = dto.lastName,
+                       email = dto.email,
+                       image = dto.image,
+                       token = dto.accessToken
+                   )
+//                   authDataStore.saveToken(dto.accessToken)
                    NetworkResult.Success(Unit)
                } ?: NetworkResult.Error("Empty response")
            }else{
@@ -45,4 +54,7 @@ class AuthRepositoryImpl @Inject constructor(
     override suspend fun logout() {
         authDataStore.clearToken()
     }
+
+    override fun getUser(): Flow<User?> = authDataStore.user
+
 }

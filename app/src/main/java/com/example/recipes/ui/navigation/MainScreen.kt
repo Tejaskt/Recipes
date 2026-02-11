@@ -17,14 +17,17 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.recipes.ui.screen.favorites.FavoriteScreen
 import com.example.recipes.ui.screen.profile.ProfileScreen
 import com.example.recipes.ui.screen.recipes.RecipeListScreen
+import com.example.recipes.ui.screen.search.SearchScreen
 
 @Composable
 fun MainScreen (
     navController: NavHostController
 ){
 
+    // Separate Bottom nav stack
     val bottomNavController = rememberNavController()
 
     val items = listOf(
@@ -95,8 +98,12 @@ fun MainScreen (
                 )
             }
 
-            composable(BottomRoute.Search.route){}
-            composable(BottomRoute.Favorites.route){}
+            composable(BottomRoute.Search.route){
+                SearchScreen()
+            }
+            composable(BottomRoute.Favorites.route){
+                FavoriteScreen()
+            }
         }
 
     }

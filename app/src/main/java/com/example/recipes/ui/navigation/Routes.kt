@@ -16,6 +16,7 @@ sealed class RootRoute(val route: String){
     object Main : RootRoute("main")
 }
 
+
 sealed class BottomRoute(
     val route: String,
     val icon : ImageVector,
@@ -25,5 +26,4 @@ sealed class BottomRoute(
     object Search : BottomRoute("search",Icons.Outlined.Search,"Search")
     object Favorites : BottomRoute("favorites",Icons.Outlined.FavoriteBorder,"Favorites")
     object Profile : BottomRoute("profile",Icons.Outlined.Person,"Profile")
-
 }

@@ -2,11 +2,15 @@ package com.example.recipes.ui.screen.profile
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
@@ -18,9 +22,15 @@ import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import coil3.compose.AsyncImage
+import com.example.recipes.domain.model.User
 
 @Composable
 fun ProfileScreen(
@@ -28,11 +38,15 @@ fun ProfileScreen(
     onLogout: () -> Unit
 ) {
 
+    val user by viewModel.user.collectAsState()
+
+    user ?: return
+
     Column(
         modifier = Modifier.fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
     ) {
-        ProfileHeader()
+        ProfileHeader(user!!)
 
         Spacer(Modifier.height(16.dp))
 
@@ -48,29 +62,47 @@ fun ProfileScreen(
 }
 
 @Composable
-fun ProfileHeader() {
+fun ProfileHeader(user: User) {
+
     Card(
         modifier = Modifier
             .padding(16.dp)
             .fillMaxWidth(),
         shape = RoundedCornerShape(24.dp)
     ) {
+
         Column(Modifier.padding(16.dp)) {
 
-            Text(
-                text = "Tejas",
-                style = MaterialTheme.typography.headlineMedium
-            )
+            Row(verticalAlignment = Alignment.CenterVertically) {
 
-            Text("Food Enthusiast")
+                AsyncImage(
+                    model = user.image,
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(56.dp)
+                        .clip(CircleShape)
+                )
+
+                Spacer(Modifier.width(12.dp))
+
+                Column {
+                    Text(
+                        text = "${user.firstName} ${user.lastName}",
+                        style = MaterialTheme.typography.titleLarge
+                    )
+
+                    Text(user.unm)
+                }
+            }
 
             Spacer(Modifier.height(12.dp))
 
-            Text("Tejas@gmail.com")
-            Text("Joined February 2026")
+            Text(user.email)
+            Text("Joined recently")
         }
     }
 }
+
 
 @Composable
 fun ProfileOptions() {
