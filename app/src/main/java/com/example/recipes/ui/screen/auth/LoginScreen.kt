@@ -103,7 +103,8 @@ fun LoginScreen(
                     colors = OutlinedTextFieldDefaults.colors(
                         focusedContainerColor = Color.White.copy(0.8f),
                         unfocusedContainerColor = MaterialTheme.colorScheme.surface.copy(0.8f)
-                    )
+                    ),
+                    singleLine = true
                 )
 
                 Spacer(Modifier.height(16.dp))
@@ -119,7 +120,8 @@ fun LoginScreen(
                     colors = OutlinedTextFieldDefaults.colors(
                         focusedContainerColor = Color.White.copy(0.8f),
                         unfocusedContainerColor = MaterialTheme.colorScheme.surface.copy(0.8f)
-                    )
+                    ),
+                    singleLine = true
                 )
 
                 Spacer(modifier = Modifier.height(16.dp))

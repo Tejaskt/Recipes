@@ -28,7 +28,7 @@ import com.example.recipes.ui.screen.recipes.components.SectionHeader
 @Composable
 fun RecipeListScreen(
     viewModel: RecipeViewModel = hiltViewModel(),
-    onRecipeItemClick:(Int)->Unit
+    onRecipeItemClick: (Int) -> Unit
 ) {
 
     val recipes = viewModel.recipes.collectAsLazyPagingItems()
@@ -36,63 +36,56 @@ fun RecipeListScreen(
 
     val featuredRecipe = recipes.itemSnapshotList.items.randomOrNull()
 
+    LazyColumn(
+        modifier = Modifier
+            .padding(horizontal = 16.dp)
+    ) {
+        item {
+            GreetingSection()
+            Spacer(Modifier.height(16.dp))
 
-    Scaffold(
-        containerColor = MaterialTheme.colorScheme.background,
-        bottomBar = { BottomNavBar() },
-        contentWindowInsets = WindowInsets.safeDrawing
-    ) { padding ->
+            //Searchbar()
+            //Spacer(Modifier.height(16.dp))
 
-        LazyColumn(
-            modifier = Modifier
-                .padding(padding)
-                .padding(horizontal = 16.dp)
-        ) {
-            item{
-                GreetingSection()
+            CategoryChips(
+                selectedCategory = selectedCategory,
+                onCategorySelected = viewModel::onCategorySelected
+            )
+            Spacer(Modifier.height(20.dp))
+
+            FeaturedRecipeCard(featuredRecipe)
+
+            Spacer(Modifier.height(24.dp))
+
+            SectionHeader(
+                title = "Popular Recipes",
+                actionText = "See All"
+            )
+            Spacer(Modifier.height(12.dp))
+
+        }
+
+        items(recipes.itemCount) { index ->
+            recipes[index]?.let { recipe ->
+                RecipeCard(recipe = recipe) {
+                    onRecipeItemClick(recipe.id)
+                }
                 Spacer(Modifier.height(16.dp))
+            }
+        }
 
-                //Searchbar()
-                //Spacer(Modifier.height(16.dp))
-
-                CategoryChips(
-                    selectedCategory = selectedCategory,
-                    onCategorySelected = viewModel::onCategorySelected
-                )
-                Spacer(Modifier.height(20.dp))
-
-                FeaturedRecipeCard(featuredRecipe)
-
-                Spacer(Modifier.height(24.dp))
-
-                SectionHeader(
-                    title = "Popular Recipes",
-                    actionText = "See All"
-                )
-                Spacer(Modifier.height(12.dp))
-
+        // Paging states
+        when {
+            recipes.loadState.refresh is LoadState.Loading -> {
+                item { LoadingItem() }
             }
 
-            items(recipes.itemCount) { index ->
-                recipes[index]?.let { recipe ->
-                    RecipeCard(recipe = recipe){
-                        onRecipeItemClick(recipe.id)
-                    }
-                    Spacer(Modifier.height(16.dp))
-                }
+            recipes.loadState.append is LoadState.Loading -> {
+                item { LoadingItem() }
             }
 
-            // Paging states
-            when {
-                recipes.loadState.refresh is LoadState.Loading -> {
-                    item { LoadingItem() }
-                }
-                recipes.loadState.append is LoadState.Loading -> {
-                    item { LoadingItem() }
-                }
-                recipes.loadState.refresh is LoadState.Error -> {
-                    item { ErrorItem("Failed to load recipes") }
-                }
+            recipes.loadState.refresh is LoadState.Error -> {
+                item { ErrorItem("Failed to load recipes") }
             }
         }
     }
