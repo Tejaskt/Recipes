@@ -45,7 +45,10 @@ fun AppNavGraph()
         composable(Routes.RECIPE_LIST) {
             RecipeListScreen(
                 onRecipeItemClick = { recipeId ->
-                    navController.navigate("${Routes.RECIPE_DETAIL}/${recipeId}")
+                    navController.navigate("${Routes.RECIPE_DETAIL}/${recipeId}"){
+                        launchSingleTop = true
+                        restoreState = true
+                    }
             })
         }
 
