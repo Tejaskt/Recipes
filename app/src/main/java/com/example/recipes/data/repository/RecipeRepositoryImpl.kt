@@ -88,4 +88,8 @@ class RecipeRepositoryImpl @Inject constructor(
             NetworkResult.Error(e.message ?: "Unknown Error")
         }
     }
+
+    override suspend fun isFavorite() : List<Recipe> {
+        return
+    }
 }

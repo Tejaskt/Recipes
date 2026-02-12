@@ -47,4 +47,10 @@ class RecipeDetailViewModel @Inject constructor(
             }
         }
     }
+
+    fun favoriteItemSelect(){
+        viewModelScope.launch {
+
+        }
+    }
 }

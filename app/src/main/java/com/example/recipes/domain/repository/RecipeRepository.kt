@@ -13,4 +13,6 @@ interface RecipeRepository {
     suspend fun searchRecipes( query : String) : NetworkResult<List<Recipe>>
 
     suspend fun sortRecipes( sortBy : String, order : String) : NetworkResult<List<Recipe>>
+
+    suspend fun isFavorite() : List<Recipe>
 }

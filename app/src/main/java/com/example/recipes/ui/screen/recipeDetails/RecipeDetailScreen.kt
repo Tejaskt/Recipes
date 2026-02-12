@@ -77,7 +77,8 @@ fun RecipeDetailScreen(
                     RecipeHeader(
                         recipe = recipe,
                         onBackClick = onBackClick,
-                        collapseFraction = collapseFraction
+                        collapseFraction = collapseFraction,
+                        onFavoriteClick = viewModel::favoriteItemSelect
                     )
                 }
 
