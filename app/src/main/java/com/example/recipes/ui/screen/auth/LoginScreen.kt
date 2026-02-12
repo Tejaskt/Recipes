@@ -53,7 +53,7 @@ fun LoginScreen(
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
-            .background(CreamBackground)
+            .background(MaterialTheme.colorScheme.background)
             .windowInsetsPadding(WindowInsets.displayCutout),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
@@ -61,12 +61,6 @@ fun LoginScreen(
 
     ) {
         item {
-//            Column(
-//                modifier = Modifier
-//                    .fillMaxWidth()
-//                    .widthIn(max = 600.dp),
-//                horizontalAlignment = Alignment.CenterHorizontally
-//            ) {
 
             Icon(
                 painter = painterResource(R.drawable.chef_hat),
@@ -88,14 +82,18 @@ fun LoginScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            Text("Recipify", style = MaterialTheme.typography.headlineLarge)
+            Text(
+                "Recipify",
+                style = MaterialTheme.typography.headlineLarge,
+                color = MaterialTheme.colorScheme.primary
+            )
 
             Spacer(Modifier.height(4.dp))
 
             Text(
                 text = "Your Personal recipe companion",
                 style = MaterialTheme.typography.bodyLarge,
-                color = Color.Black.copy(alpha = 0.7f)
+                color = MaterialTheme.colorScheme.onSecondary.copy(alpha = 0.7f)
             )
 
             Spacer(modifier = Modifier.height(24.dp))
@@ -108,10 +106,6 @@ fun LoginScreen(
                 leadingIcon = { Icon(Icons.Outlined.Email, contentDescription = null) },
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(18.dp),
-                colors = OutlinedTextFieldDefaults.colors(
-                    focusedContainerColor = Color.White.copy(0.8f),
-                    unfocusedContainerColor = MaterialTheme.colorScheme.surface.copy(0.8f)
-                ),
                 singleLine = true
             )
 
@@ -125,10 +119,6 @@ fun LoginScreen(
                 modifier = Modifier.fillMaxWidth(),
                 leadingIcon = { Icon(Icons.Outlined.Lock, contentDescription = null) },
                 shape = RoundedCornerShape(18.dp),
-                colors = OutlinedTextFieldDefaults.colors(
-                    focusedContainerColor = Color.White.copy(0.8f),
-                    unfocusedContainerColor = MaterialTheme.colorScheme.surface.copy(0.8f)
-                ),
                 singleLine = true
             )
 
@@ -169,7 +159,7 @@ fun LoginScreen(
                 Text(
                     text = "Don't have an account?",
                     style = MaterialTheme.typography.bodyMedium,
-                    color = Color.Black.copy(alpha = 0.7f)
+                    color = MaterialTheme.colorScheme.onSecondary
                 )
                 Text(
                     text = "Sign Up",
@@ -184,7 +174,6 @@ fun LoginScreen(
             }
         }
     }
-//    }
 }
 
 @Preview

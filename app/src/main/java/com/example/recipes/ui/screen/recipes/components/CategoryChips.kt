@@ -59,7 +59,7 @@ fun CategoryChip(
             color = if (selected)
                 MaterialTheme.colorScheme.onPrimary
             else
-                TextTertiary
+                MaterialTheme.colorScheme.onSecondary
         )
     }
 }

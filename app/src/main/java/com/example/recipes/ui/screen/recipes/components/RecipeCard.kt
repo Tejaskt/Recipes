@@ -7,14 +7,12 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.AccessTime
@@ -36,7 +34,6 @@ import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.example.recipes.domain.model.Recipe
 import com.example.recipes.ui.theme.TextTertiary
-import org.w3c.dom.Text
 
 @Composable
 fun RecipeCard(
@@ -73,7 +70,7 @@ fun RecipeCard(
                         Text(
                             text = " • ${recipe.cuisine}",
                             style = MaterialTheme.typography.bodySmall,
-                            color = TextTertiary
+//                            color = TextTertiary
                         )
                     }
 
@@ -140,7 +137,7 @@ fun RecipeCard(
 @Composable
 fun CardLastRow(icon : ImageVector, text : String){
     Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(2.dp)) {
-        Icon(imageVector = icon, null, tint = TextTertiary, modifier = Modifier.size(size = 20.dp))
-        Text(text, style = MaterialTheme.typography.bodySmall, color = TextTertiary)
+        Icon(imageVector = icon, null, modifier = Modifier.size(size = 20.dp))
+        Text(text, style = MaterialTheme.typography.bodySmall)
     }
 }

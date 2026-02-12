@@ -2,18 +2,15 @@ package com.example.recipes.ui.screen.search
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.recipes.domain.model.Recipe
 import com.example.recipes.domain.repository.RecipeRepository
 import com.example.recipes.utils.NetworkResult
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.debounce
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -25,9 +22,34 @@ class SearchViewModel @Inject constructor(
     private val _query = MutableStateFlow("")
     val query: StateFlow<String> = _query
 
-    private val _uiState =
-        MutableStateFlow<SearchUiState>(SearchUiState.Idle)
-    val uiState: StateFlow<SearchUiState> = _uiState
+    private val _filters = MutableStateFlow(SearchFilterState())
+    val filters: StateFlow<SearchFilterState> = _filters
+
+    private val _rawResults = MutableStateFlow<List<Recipe>>(emptyList())
+
+    val uiState: StateFlow<SearchUiState> =
+        combine(_rawResults, _filters) { recipes, filters ->
+
+            val filtered = recipes.filter { recipe ->
+
+                val cuisineMatch =
+                    filters.cuisine == "All" ||
+                            recipe.cuisine.equals(filters.cuisine, true)
+
+                val difficultyMatch =
+                    filters.difficulty == "All" ||
+                            recipe.difficulty.equals(filters.difficulty, true)
+
+                cuisineMatch && difficultyMatch
+            }
+
+            SearchUiState.Success(filtered)
+
+        }.stateIn(
+            viewModelScope,
+            SharingStarted.WhileSubscribed(5000),
+            SearchUiState.Idle
+        )
 
     fun onQueryChange(newQuery: String) {
         _query.value = newQuery
@@ -38,40 +60,29 @@ class SearchViewModel @Inject constructor(
         if (currentQuery.isBlank()) return
 
         viewModelScope.launch {
-            _uiState.value = SearchUiState.Loading
-
-            when (val result = repository.searchRecipes(currentQuery)) {
-
-                is NetworkResult.Success ->
-                    _uiState.value =
-                        SearchUiState.Success(result.data)
-
-                is NetworkResult.Error ->
-                    _uiState.value =
-                        SearchUiState.Error(result.message)
-
-                else -> {}
-            }
-        }
-    }
-
-    fun sortByNameAsc() {
-        viewModelScope.launch {
-            _uiState.value = SearchUiState.Loading
 
             when (val result =
-                repository.sortRecipes("name", "asc")) {
+                repository.searchRecipes(currentQuery)) {
 
-                is NetworkResult.Success ->
-                    _uiState.value =
-                        SearchUiState.Success(result.data)
-
-                is NetworkResult.Error ->
-                    _uiState.value =
-                        SearchUiState.Error(result.message)
+                is NetworkResult.Success -> {
+                    _rawResults.value = result.data
+                }
 
                 else -> {}
             }
         }
     }
+
+    fun updateCuisine(cuisine: String) {
+        _filters.value = _filters.value.copy(cuisine = cuisine)
+    }
+
+    fun updateDifficulty(difficulty: String) {
+        _filters.value = _filters.value.copy(difficulty = difficulty)
+    }
+
+    fun clearFilters() {
+        _filters.value = SearchFilterState()
+    }
 }
+

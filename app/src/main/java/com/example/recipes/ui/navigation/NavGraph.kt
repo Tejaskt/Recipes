@@ -77,53 +77,10 @@ fun AppNavGraph() {
             ) {
                 RecipeDetailScreen(
                     onBackClick = {
-                        navController.navigate(BottomRoute.Home.route){
-//                            popUpTo(Routes.RECIPE_DETAIL){inclusive = true}
-                            navController.popBackStack(
-                                route = BottomRoute.Home.route,
-                                inclusive = false
-                            )
-                        }
+                        navController.popBackStack(route = BottomRoute.Home.route, inclusive = false)
                     }
                 )
             }
         }
-
-        /*
-        composable(Routes.LOGIN) {
-            LoginScreen(
-                onLoginSuccess = {
-                    navController.navigate(Routes.RECIPE_LIST) {
-                        popUpTo(Routes.LOGIN) { inclusive = true }
-                    }
-                }
-            )
-        }
-
-        composable(Routes.RECIPE_LIST) {
-            RecipeListScreen(
-                onRecipeItemClick = { recipeId ->
-                    navController.navigate("${Routes.RECIPE_DETAIL}/${recipeId}"){
-                        launchSingleTop = true
-                        restoreState = true
-
-                    }
-            })
-        }
-
-        composable(
-            route = "${Routes.RECIPE_DETAIL}/{recipeId}",
-            arguments = listOf(
-                navArgument("recipeId"){ type = NavType.IntType}
-            )
-        ){
-            RecipeDetailScreen(
-                onBackClick = {
-                    navController.navigate(Routes.RECIPE_LIST){
-                        popUpTo(Routes.RECIPE_DETAIL){inclusive = true}
-                    }
-                }
-            )
-        }*/
     }
 }

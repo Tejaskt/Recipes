@@ -13,7 +13,6 @@ import androidx.compose.material.icons.outlined.AccessTime
 import androidx.compose.material.icons.outlined.LocalFireDepartment
 import androidx.compose.material.icons.outlined.SupervisorAccount
 import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -23,7 +22,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import com.example.recipes.domain.model.Recipe
-import com.example.recipes.ui.theme.TextTertiary
 
 @Composable
 fun RecipeMeta(recipe: Recipe) {
@@ -35,7 +33,8 @@ fun RecipeMeta(recipe: Recipe) {
 
         Text(
             text = recipe.title,
-            style = MaterialTheme.typography.headlineMedium
+            style = MaterialTheme.typography.headlineMedium,
+            color = MaterialTheme.colorScheme.onSecondary
         )
 
         Row(
@@ -44,8 +43,8 @@ fun RecipeMeta(recipe: Recipe) {
         ) {
             Text(
                 text = "${recipe.cuisine} Cuisine • ",
-                color = TextTertiary,
-                style = MaterialTheme.typography.bodyMedium
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSecondary
             )
 
             Text(
@@ -76,9 +75,7 @@ fun MetaChip(
 ) {
     Card(
         shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceVariant
-        ), modifier = modifier.fillMaxWidth()
+        modifier = modifier.fillMaxWidth()
     ) {
         Column(
             modifier = Modifier
@@ -90,7 +87,6 @@ fun MetaChip(
             Icon(
                 imageVector = imageVector,
                 contentDescription = null,
-                tint = TextTertiary
             )
             Text(
                 text = label,

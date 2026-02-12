@@ -22,7 +22,6 @@ fun GreetingSection() {
             Text(
                 text = "Good Morning 👋",
                 style = MaterialTheme.typography.bodyMedium,
-                color = TextTertiary
             )
             Text(
                 text = "Tejas",

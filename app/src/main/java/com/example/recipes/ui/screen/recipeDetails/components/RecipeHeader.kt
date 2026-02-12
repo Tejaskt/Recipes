@@ -70,16 +70,5 @@ fun RecipeHeader(
             )
         }
 
-        /*
-        * Text(
-            text = recipe.title,
-            style = MaterialTheme.typography.headlineMedium,
-            color = Color.White,
-            modifier = Modifier
-                .align(Alignment.BottomStart)
-                .padding(16.dp)
-                .alpha(1f - collapseFraction)
-        )
-        * */
     }
 }
