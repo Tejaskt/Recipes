@@ -20,7 +20,10 @@ val Typography = Typography(
 
     headlineMedium = TextStyle(
         fontWeight = FontWeight.Bold,
-        fontSize = 22.sp
+        fontSize = 22.sp,
+        fontFamily = FontFamily(
+            Font(R.font.lora_medium)
+        )
     ),
 
     titleMedium = TextStyle(

@@ -44,7 +44,8 @@ import com.example.recipes.ui.theme.RecipesTheme
 
 @Composable
 fun LoginScreen(
-    onLoginSuccess: () -> Unit, viewModel: LoginViewModel = hiltViewModel()
+    onLoginSuccess: () -> Unit,
+    viewModel: LoginViewModel = hiltViewModel()
 ) {
     val state by viewModel.uiState.collectAsState()
 

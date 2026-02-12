@@ -1,12 +1,14 @@
 package com.example.recipes.ui.screen.profile
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -27,6 +29,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil3.compose.AsyncImage
@@ -39,34 +42,69 @@ fun ProfileScreen(
 ) {
 
     val user by viewModel.user.collectAsState()
-
     user ?: return
 
-    Column(
+    Box(
         modifier = Modifier.fillMaxSize()
-            .background(MaterialTheme.colorScheme.background)
     ) {
-        ProfileHeader(user!!)
+        // Top
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(200.dp)
+                .background(
+                    Brush.linearGradient(
+                        listOf(
+                            MaterialTheme.colorScheme.primary,
+                            MaterialTheme.colorScheme.secondary
+                        )
+                    )
+                )
+        ) {
+            Text(
+                text = "My Profile",
+                style = MaterialTheme.typography.headlineMedium,
+                color = MaterialTheme.colorScheme.surface,
+                modifier = Modifier.padding(16.dp)
+            )
 
-        Spacer(Modifier.height(16.dp))
-
-        ProfileOptions()
-
-        Spacer(Modifier.weight(1f))
-
-        LogoutButton {
-            viewModel.logout()
-            onLogout()
         }
+
+        // Bottom Content
+        Column(
+            modifier = Modifier.fillMaxSize()
+                .padding(top = 180.dp)
+                .background(MaterialTheme.colorScheme.background)
+        ){
+
+            Spacer(modifier = Modifier.height(100.dp))
+
+            ProfileOptions()
+
+            Spacer(Modifier.weight(1f))
+
+            LogoutButton {
+                viewModel.logout()
+                onLogout()
+            }
+        }
+
+        // overlapping
+        ProfileHeader(
+            user = user!!,
+            modifier = Modifier
+                .align(Alignment.TopCenter)
+                .padding(horizontal = 16.dp)
+                .offset(y = 120.dp)
+        )
     }
 }
 
 @Composable
-fun ProfileHeader(user: User) {
+fun ProfileHeader(user: User,modifier: Modifier) {
 
     Card(
-        modifier = Modifier
-            .padding(16.dp)
+        modifier = modifier
             .fillMaxWidth(),
         shape = RoundedCornerShape(24.dp)
     ) {
@@ -79,7 +117,7 @@ fun ProfileHeader(user: User) {
                     model = user.image,
                     contentDescription = null,
                     modifier = Modifier
-                        .size(56.dp)
+                        .size(64.dp)
                         .clip(CircleShape)
                 )
 
@@ -91,7 +129,7 @@ fun ProfileHeader(user: User) {
                         style = MaterialTheme.typography.titleLarge
                     )
 
-                    Text(user.unm)
+                    Text("@${user.unm}")
                 }
             }
 
