@@ -9,5 +9,5 @@ import androidx.compose.ui.text.style.TextAlign
 
 @Composable
 fun FavoriteScreen (){
-    Text("FAAAAAA", textAlign = TextAlign.Center, style = MaterialTheme.typography.headlineLarge)
+    Text("Favorite Screen", textAlign = TextAlign.Center, modifier = Modifier.fillMaxSize(), style = MaterialTheme.typography.headlineLarge)
 }

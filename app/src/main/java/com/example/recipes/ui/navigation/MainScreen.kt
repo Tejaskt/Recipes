@@ -99,7 +99,9 @@ fun MainScreen (
             }
 
             composable(BottomRoute.Search.route){
-                SearchScreen()
+                SearchScreen(onRecipeClick =  { id ->
+                    navController.navigate("${Routes.RECIPE_DETAIL}/$id")
+                })
             }
             composable(BottomRoute.Favorites.route){
                 FavoriteScreen()

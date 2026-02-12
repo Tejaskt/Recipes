@@ -50,4 +50,42 @@ class RecipeRepositoryImpl @Inject constructor(
             NetworkResult.Error("Something went wrong")
         }
     }
+
+    override suspend fun searchRecipes(query: String): NetworkResult<List<Recipe>> {
+        return try {
+            val response = api.searchRecipes(query)
+
+            if(response.isSuccessful){
+                val body = response.body()
+                NetworkResult.Success(
+                    body?.recipes?.map { it.toDomain() } ?: emptyList()
+                )
+            }else{
+                NetworkResult.Error("Search Failed")
+            }
+        }catch (e : Exception){
+            NetworkResult.Error(e.message ?: "Unknown error")
+        }
+    }
+
+    override suspend fun sortRecipes(
+        sortBy: String,
+        order: String
+    ): NetworkResult<List<Recipe>> {
+        return try {
+
+            val response = api.getSortedRecipes(sortBy,order)
+
+            if(response.isSuccessful){
+                val body = response.body()
+                NetworkResult.Success(
+                    body?.recipes?.map { it.toDomain() } ?: emptyList()
+                )
+            }else{
+                NetworkResult.Error("Sorting Failed")
+            }
+        }catch (e : Exception){
+            NetworkResult.Error(e.message ?: "Unknown Error")
+        }
+    }
 }

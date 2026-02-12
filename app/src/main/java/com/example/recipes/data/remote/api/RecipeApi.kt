@@ -19,4 +19,15 @@ interface RecipeApi {
     suspend fun getRecipeById(
         @Path("id") id : Int
     ): Response<RecipeDto>
+
+    @GET("recipes/search")
+    suspend fun searchRecipes(
+        @Query("q") query : String
+    ) : Response<RecipesResponseDto>
+
+    @GET("recipes")
+    suspend fun getSortedRecipes(
+        @Query("sortBy") sortBy : String,
+        @Query("order") order : String
+    ): Response<RecipesResponseDto>
 }

@@ -9,4 +9,8 @@ interface RecipeRepository {
     fun getRecipes(category: String): Flow<PagingData<Recipe>>
 
     suspend fun getRecipeById(id : Int): NetworkResult<Recipe>
+
+    suspend fun searchRecipes( query : String) : NetworkResult<List<Recipe>>
+
+    suspend fun sortRecipes( sortBy : String, order : String) : NetworkResult<List<Recipe>>
 }

@@ -26,6 +26,7 @@ material3 = "1.4.0"
 runtimeSaveable = "1.10.2"
 androidxRuntime = "1.10.2"
 animation = "1.10.2"
+foundation = "1.10.2"
 
 
 
@@ -68,6 +69,7 @@ androidx-compose-runtime-saveable = { group = "androidx.compose.runtime", name =
 #noinspection SimilarGradleDependency
 runtime = { group = "androidx.compose.runtime", name = "runtime", version.ref = "androidxRuntime" }
 androidx-compose-animation = { group = "androidx.compose.animation", name = "animation", version.ref = "animation" }
+androidx-compose-foundation = { group = "androidx.compose.foundation", name = "foundation", version.ref = "foundation" }
 
 
 [plugins]

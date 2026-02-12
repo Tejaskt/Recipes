@@ -31,6 +31,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -50,7 +51,8 @@ fun LoginScreen(
     val state by viewModel.uiState.collectAsState()
 
     LazyColumn(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
             .background(CreamBackground)
             .windowInsetsPadding(WindowInsets.displayCutout),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -66,117 +68,122 @@ fun LoginScreen(
 //                horizontalAlignment = Alignment.CenterHorizontally
 //            ) {
 
-                Icon(
-                    painter = painterResource(R.drawable.chef_hat),
-                    contentDescription = null,
-                    tint = Color.White,
-                    modifier = Modifier
-                        .size(75.dp)
-                        .background(
-                            color = MaterialTheme.colorScheme.primary,
-                            shape = MaterialTheme.shapes.extraLarge
-                        )
-                        .padding(16.dp)
-                )
-
-                Spacer(modifier = Modifier.height(16.dp))
-
-                Text("Recipify", style = MaterialTheme.typography.headlineLarge)
-
-                Spacer(Modifier.height(4.dp))
-
-                Text(
-                    text = "Your Personal recipe companion",
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = Color.Black.copy(alpha = 0.7f)
-                )
-
-                Spacer(modifier = Modifier.height(24.dp))
-
-
-                OutlinedTextField(
-                    value = state.email,
-                    onValueChange = viewModel::onEmailChange,
-                    placeholder = { Text("Email Address") },
-                    leadingIcon = { Icon(Icons.Outlined.Email, contentDescription = null) },
-                    modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(18.dp),
-                    colors = OutlinedTextFieldDefaults.colors(
-                        focusedContainerColor = Color.White.copy(0.8f),
-                        unfocusedContainerColor = MaterialTheme.colorScheme.surface.copy(0.8f)
-                    ),
-                    singleLine = true
-                )
-
-                Spacer(Modifier.height(16.dp))
-
-                OutlinedTextField(
-                    value = state.password,
-                    onValueChange = viewModel::onPasswordChange,
-                    placeholder = { Text("Password") },
-                    visualTransformation = PasswordVisualTransformation(),
-                    modifier = Modifier.fillMaxWidth(),
-                    leadingIcon = { Icon(Icons.Outlined.Lock, contentDescription = null) },
-                    shape = RoundedCornerShape(18.dp),
-                    colors = OutlinedTextFieldDefaults.colors(
-                        focusedContainerColor = Color.White.copy(0.8f),
-                        unfocusedContainerColor = MaterialTheme.colorScheme.surface.copy(0.8f)
-                    ),
-                    singleLine = true
-                )
-
-                Spacer(modifier = Modifier.height(16.dp))
-
-                Text(
-                    text = "Forgot Password?",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.primary,
-                    textAlign = TextAlign.End,
-                    modifier = Modifier.fillMaxWidth()
-                )
-
-                Spacer(Modifier.height(16.dp))
-
-                Button(
-                    onClick = { viewModel.login(onLoginSuccess) },
-                    modifier = Modifier.fillMaxWidth(),
-                    enabled = !state.isLoading,
-                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
-                    shape = RoundedCornerShape(18.dp)
-                ) {
-                    if (state.isLoading) {
-                        CircularProgressIndicator(
-                            modifier = Modifier.size(20.dp), strokeWidth = 2.dp
-                        )
-                    } else {
-                        Text("Sign In")
-                    }
-                }
-
-                Spacer(modifier = Modifier.height(20.dp))
-
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(6.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        text = "Don't have an account?",
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = Color.Black.copy(alpha = 0.7f)
+            Icon(
+                painter = painterResource(R.drawable.chef_hat),
+                contentDescription = null,
+                tint = Color.White,
+                modifier = Modifier
+                    .size(75.dp)
+                    .background(
+                        Brush.linearGradient(
+                            listOf(
+                                MaterialTheme.colorScheme.tertiary,
+                                MaterialTheme.colorScheme.secondary
+                            )
+                        ),
+                        shape = MaterialTheme.shapes.extraLarge
                     )
-                    Text(
-                        text = "Sign Up",
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.primary
-                    )
-                }
+                    .padding(16.dp)
+            )
 
-                state.error?.let {
-                    Spacer(Modifier.height(12.dp))
-                    Text(it, color = MaterialTheme.colorScheme.error)
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Text("Recipify", style = MaterialTheme.typography.headlineLarge)
+
+            Spacer(Modifier.height(4.dp))
+
+            Text(
+                text = "Your Personal recipe companion",
+                style = MaterialTheme.typography.bodyLarge,
+                color = Color.Black.copy(alpha = 0.7f)
+            )
+
+            Spacer(modifier = Modifier.height(24.dp))
+
+
+            OutlinedTextField(
+                value = state.email,
+                onValueChange = viewModel::onEmailChange,
+                placeholder = { Text("Email Address") },
+                leadingIcon = { Icon(Icons.Outlined.Email, contentDescription = null) },
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(18.dp),
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedContainerColor = Color.White.copy(0.8f),
+                    unfocusedContainerColor = MaterialTheme.colorScheme.surface.copy(0.8f)
+                ),
+                singleLine = true
+            )
+
+            Spacer(Modifier.height(16.dp))
+
+            OutlinedTextField(
+                value = state.password,
+                onValueChange = viewModel::onPasswordChange,
+                placeholder = { Text("Password") },
+                visualTransformation = PasswordVisualTransformation(),
+                modifier = Modifier.fillMaxWidth(),
+                leadingIcon = { Icon(Icons.Outlined.Lock, contentDescription = null) },
+                shape = RoundedCornerShape(18.dp),
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedContainerColor = Color.White.copy(0.8f),
+                    unfocusedContainerColor = MaterialTheme.colorScheme.surface.copy(0.8f)
+                ),
+                singleLine = true
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Text(
+                text = "Forgot Password?",
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.primary,
+                textAlign = TextAlign.End,
+                modifier = Modifier.fillMaxWidth()
+            )
+
+            Spacer(Modifier.height(16.dp))
+
+            Button(
+                onClick = { viewModel.login(onLoginSuccess) },
+                modifier = Modifier.fillMaxWidth(),
+                enabled = !state.isLoading,
+                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
+                shape = RoundedCornerShape(18.dp)
+            ) {
+                if (state.isLoading) {
+                    CircularProgressIndicator(
+                        modifier = Modifier.size(20.dp), strokeWidth = 2.dp
+                    )
+                } else {
+                    Text("Sign In")
                 }
             }
+
+            Spacer(modifier = Modifier.height(20.dp))
+
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(6.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "Don't have an account?",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = Color.Black.copy(alpha = 0.7f)
+                )
+                Text(
+                    text = "Sign Up",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.primary
+                )
+            }
+
+            state.error?.let {
+                Spacer(Modifier.height(12.dp))
+                Text(it, color = MaterialTheme.colorScheme.error)
+            }
         }
+    }
 //    }
 }
 

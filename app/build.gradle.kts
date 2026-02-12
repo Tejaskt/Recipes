@@ -63,6 +63,7 @@ dependencies {
     implementation(libs.androidx.compose.runtime.saveable)
     implementation(libs.runtime)
     implementation(libs.androidx.compose.animation)
+    implementation(libs.androidx.compose.foundation)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
