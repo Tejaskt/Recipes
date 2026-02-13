@@ -20,10 +20,12 @@ class RecipePagingSource(
         val skip = page * limit
 
         return try {
-            val response = api.getRecipes(
-                limit = limit,
-                skip = skip
-            )
+
+            val response = if (category == "All"){
+                api.getRecipes( limit = limit, skip = skip)
+            }else{
+                api.getRecipeByMealType(category.lowercase(),limit,skip)
+            }
 
             if (!response.isSuccessful) {
                 return LoadResult.Error(Throwable("API error"))
@@ -32,21 +34,12 @@ class RecipePagingSource(
             val body = response.body()
                 ?: return LoadResult.Error(Throwable("Empty response"))
 
-            //  (PER PAGE) FILTER HERE
-            val filtered = body.recipes
-                .filter { recipe ->
-                    category == "All" ||
-                            recipe.mealType.any {
-                                it.equals(category, ignoreCase = true)
-                            }
-                }
-                .map { it.toDomain() }
+            val data = body.recipes.map { it.toDomain() }
 
             LoadResult.Page(
-                data = filtered,
+                data = data,
                 prevKey = if (page == 0) null else page - 1,
-                nextKey =
-                    if (filtered.isEmpty()) null else page + 1
+                nextKey = if(data.isEmpty()) null else page + 1
             )
 
         } catch (e: Exception) {

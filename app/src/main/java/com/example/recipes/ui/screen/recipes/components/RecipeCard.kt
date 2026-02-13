@@ -41,7 +41,8 @@ fun RecipeCard(
     onClick: (Int) -> Unit
 ) {
     Card(
-        modifier = Modifier.fillMaxWidth().clickable{ onClick(recipe.id) },
+        modifier = Modifier.fillMaxWidth(),//.clickable{ onClick(recipe.id) },
+        onClick = { onClick(recipe.id)} ,
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
     ) {

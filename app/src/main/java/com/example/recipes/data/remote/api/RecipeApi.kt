@@ -30,4 +30,11 @@ interface RecipeApi {
         @Query("sortBy") sortBy : String,
         @Query("order") order : String
     ): Response<RecipesResponseDto>
+
+    @GET("recipes/meal-type/{mealType}")
+    suspend fun getRecipeByMealType(
+        @Path("mealType") mealType: String,
+        @Query("limit") limit : Int,
+        @Query("skip") skip : Int
+    ): Response<RecipesResponseDto>
 }

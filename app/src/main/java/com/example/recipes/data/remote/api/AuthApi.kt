@@ -12,6 +12,6 @@ interface AuthApi {
     @POST("auth/login")
     @Headers("Content-Type: application/json")
     suspend fun login(
-        @Body request: LoginRequestDto
+        @Body request: LoginRequestDto,
     ): Response<LoginResponseDto>
 }

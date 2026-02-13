@@ -55,7 +55,7 @@ fun RecipeHeader(
 
         // dark overlay for text readability
         Box(
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.matchParentSize()
                 .background(
                     Color.Black.copy(alpha = 0.3f * collapseFraction)
                 )

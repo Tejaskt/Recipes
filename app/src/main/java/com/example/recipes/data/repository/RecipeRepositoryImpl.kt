@@ -1,6 +1,5 @@
 package com.example.recipes.data.repository
 
-import androidx.compose.runtime.mutableStateOf
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
@@ -26,7 +25,6 @@ class RecipeRepositoryImpl @Inject constructor(
         return Pager(
             config = PagingConfig(
                 pageSize = 10,
-                prefetchDistance = 2,
                 enablePlaceholders = false
             ),
             pagingSourceFactory = {
