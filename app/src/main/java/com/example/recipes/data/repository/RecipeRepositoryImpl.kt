@@ -1,5 +1,6 @@
 package com.example.recipes.data.repository
 
+import androidx.compose.runtime.mutableStateOf
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
@@ -10,6 +11,9 @@ import com.example.recipes.domain.model.Recipe
 import com.example.recipes.domain.repository.RecipeRepository
 import com.example.recipes.utils.NetworkResult
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.map
 import okio.IOException
 import javax.inject.Inject
 
@@ -89,7 +93,26 @@ class RecipeRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun isFavorite() : List<Recipe> {
-        return
+    /*--- FAVORITE SECTION ---*/
+
+    private val _favoriteItems = MutableStateFlow<List<Recipe>>(emptyList())
+
+    override val favoriteItems = _favoriteItems.asStateFlow()
+
+    override suspend fun addToFavorite(item : Recipe) {
+        if(_favoriteItems.value.none{ it.id == item.id }){
+            _favoriteItems.value += item
+        }
     }
+
+    override suspend fun removeFromFavorite(recipeId: Int) {
+        _favoriteItems.value = _favoriteItems.value.filterNot { it.id == recipeId }
+    }
+
+    override fun isFavorite(recipeId: Int): Flow<Boolean> {
+        return  _favoriteItems.map { list ->
+            list.any{ it.id == recipeId }
+        }
+    }
+
 }

@@ -9,14 +9,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -34,11 +32,10 @@ fun RecipeHeader(
     recipe: Recipe,
     onBackClick: () -> Unit,
     collapseFraction : Float,
-    onFavoriteClick: () -> Unit
+    isFavorite : Boolean,
+    onToggleFavorite: () -> Unit
 ) {
-
     val baseHeight = 280.dp
-    var selected by rememberSaveable { mutableStateOf(false) }
 
     Box(
         modifier = Modifier
@@ -84,14 +81,11 @@ fun RecipeHeader(
 
         // Favorite Button
         IconButton(
-            onClick = {
-                onFavoriteClick()
-                selected = !selected
-            },
+            onClick = onToggleFavorite ,
             modifier = Modifier.align(alignment = Alignment.TopEnd).padding(end = 8.dp,top = 16.dp),
         ) {
             Icon(
-                if(selected) Icons.Outlined.FavoriteBorder else Icons.Filled.Favorite,
+                if(isFavorite) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder,
                 null,
                 tint = Color.Black,
                 modifier = Modifier

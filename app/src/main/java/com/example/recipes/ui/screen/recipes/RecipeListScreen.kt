@@ -1,13 +1,9 @@
 package com.example.recipes.ui.screen.recipes
 
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -16,7 +12,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
-import com.example.recipes.ui.screen.recipes.components.BottomNavBar
 import com.example.recipes.ui.screen.recipes.components.CategoryChips
 import com.example.recipes.ui.screen.recipes.components.ErrorItem
 import com.example.recipes.ui.screen.recipes.components.FeaturedRecipeCard

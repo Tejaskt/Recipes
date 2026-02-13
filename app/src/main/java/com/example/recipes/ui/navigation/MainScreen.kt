@@ -104,7 +104,11 @@ fun MainScreen (
                 })
             }
             composable(BottomRoute.Favorites.route){
-                FavoriteScreen()
+                FavoriteScreen(
+                    onRecipeItemClick = { id ->
+                        navController.navigate("${Routes.RECIPE_DETAIL}/$id")
+                    }
+                )
             }
         }
 

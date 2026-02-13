@@ -68,6 +68,7 @@ fun RecipeDetailScreen(
         is RecipeDetailUiState.Success -> {
 
             val recipe = (state as RecipeDetailUiState.Success).recipe
+            val isFavorite by viewModel.isFavorite.collectAsState()
 
             LazyColumn(
                 state = listState,
@@ -78,7 +79,8 @@ fun RecipeDetailScreen(
                         recipe = recipe,
                         onBackClick = onBackClick,
                         collapseFraction = collapseFraction,
-                        onFavoriteClick = viewModel::favoriteItemSelect
+                        onToggleFavorite = { viewModel.toggleFavorite(recipe) },
+                        isFavorite = isFavorite
                     )
                 }
 

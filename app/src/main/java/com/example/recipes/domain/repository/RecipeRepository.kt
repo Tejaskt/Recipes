@@ -4,6 +4,8 @@ import androidx.paging.PagingData
 import com.example.recipes.domain.model.Recipe
 import com.example.recipes.utils.NetworkResult
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 
 interface RecipeRepository {
     fun getRecipes(category: String): Flow<PagingData<Recipe>>
@@ -14,5 +16,11 @@ interface RecipeRepository {
 
     suspend fun sortRecipes( sortBy : String, order : String) : NetworkResult<List<Recipe>>
 
-    suspend fun isFavorite() : List<Recipe>
+
+    val favoriteItems: StateFlow<List<Recipe>>
+    suspend fun addToFavorite(item : Recipe)
+
+    suspend fun removeFromFavorite(recipeId : Int)
+
+    fun isFavorite(recipeId : Int) : Flow<Boolean>
 }
