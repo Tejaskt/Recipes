@@ -14,6 +14,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.stateIn
+import java.util.Calendar
 import javax.inject.Inject
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -33,6 +34,22 @@ class RecipeViewModel @Inject constructor(
 
     fun onCategorySelected(category: String){
         _selectedCategory.value = category
+    }
+
+    /*--- GREETING ---*/
+    private val _greeting = MutableStateFlow(getGreeting())
+    val greeting: StateFlow<String> = _greeting
+
+
+    // Helper function to calculate greeting based on current hour
+    private fun getGreeting(): String {
+        val hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
+        return when (hour) {
+            in 5..11 -> "Good Morning 👋"
+            in 12..16 -> "Good Afternoon 👋"
+            in 17..20 -> "Good Evening 👋"
+            else -> "Good Night 👋"
+        }
     }
 
 }

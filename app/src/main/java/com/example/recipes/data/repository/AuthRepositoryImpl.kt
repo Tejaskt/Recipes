@@ -16,6 +16,7 @@ class AuthRepositoryImpl @Inject constructor(
     private val authDataStore: AuthDataStore
 ): AuthRepository {
 
+    /*--- LOGIN ---*/
     override suspend fun login(
         username: String,
         password: String
@@ -34,12 +35,12 @@ class AuthRepositoryImpl @Inject constructor(
                        image = dto.image,
                        token = dto.accessToken
                    )
-//                   authDataStore.saveToken(dto.accessToken)
                    NetworkResult.Success(Unit)
                } ?: NetworkResult.Error("Empty response")
            }else{
                NetworkResult.Error("Invalid credentials")
            }
+
        }catch (e: IOException){
            NetworkResult.Error("No internet connection : $e")
        }catch (e : Exception){

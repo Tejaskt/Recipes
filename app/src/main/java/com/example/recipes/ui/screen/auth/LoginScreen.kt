@@ -34,6 +34,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -61,7 +62,6 @@ fun LoginScreen(
 
     ) {
         item {
-
             Icon(
                 painter = painterResource(R.drawable.chef_hat),
                 contentDescription = null,
@@ -83,7 +83,7 @@ fun LoginScreen(
             Spacer(modifier = Modifier.height(16.dp))
 
             Text(
-                "Recipify",
+                stringResource(R.string.recipify),
                 style = MaterialTheme.typography.headlineLarge,
                 color = MaterialTheme.colorScheme.primary
             )
@@ -91,7 +91,7 @@ fun LoginScreen(
             Spacer(Modifier.height(4.dp))
 
             Text(
-                text = "Your Personal recipe companion",
+                text = stringResource(R.string.tagLine),
                 style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.onSecondary.copy(alpha = 0.7f)
             )
@@ -102,7 +102,7 @@ fun LoginScreen(
             OutlinedTextField(
                 value = state.email,
                 onValueChange = viewModel::onEmailChange,
-                placeholder = { Text("Email Address") },
+                placeholder = { Text(stringResource(R.string.email_address)) },
                 leadingIcon = { Icon(Icons.Outlined.Email, contentDescription = null) },
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(18.dp),
@@ -114,7 +114,7 @@ fun LoginScreen(
             OutlinedTextField(
                 value = state.password,
                 onValueChange = viewModel::onPasswordChange,
-                placeholder = { Text("Password") },
+                placeholder = { Text(stringResource(R.string.password)) },
                 visualTransformation = PasswordVisualTransformation(),
                 modifier = Modifier.fillMaxWidth(),
                 leadingIcon = { Icon(Icons.Outlined.Lock, contentDescription = null) },
@@ -125,7 +125,7 @@ fun LoginScreen(
             Spacer(modifier = Modifier.height(16.dp))
 
             Text(
-                text = "Forgot Password?",
+                text = stringResource(R.string.forgot_password),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.primary,
                 textAlign = TextAlign.End,
@@ -146,7 +146,7 @@ fun LoginScreen(
                         modifier = Modifier.size(20.dp), strokeWidth = 2.dp
                     )
                 } else {
-                    Text("Sign In")
+                    Text(stringResource(R.string.sign_in))
                 }
             }
 
@@ -157,12 +157,12 @@ fun LoginScreen(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "Don't have an account?",
+                    text = stringResource(R.string.don_t_have_an_account),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSecondary
                 )
                 Text(
-                    text = "Sign Up",
+                    text = stringResource(R.string.sign_up),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.primary
                 )

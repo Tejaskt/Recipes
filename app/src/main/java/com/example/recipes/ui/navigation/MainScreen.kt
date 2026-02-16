@@ -30,12 +30,8 @@ fun MainScreen (
     // Separate Bottom nav stack
     val bottomNavController = rememberNavController()
 
-    val items = listOf(
-        BottomRoute.Home,
-        BottomRoute.Search,
-        BottomRoute.Favorites,
-        BottomRoute.Profile
-    )
+    // Bottom navbar Items
+    val items = listOf(BottomRoute.Home,BottomRoute.Search,BottomRoute.Favorites,BottomRoute.Profile)
 
     val currentRoute = bottomNavController.currentBackStackEntryAsState().value?.destination?.route
 
@@ -45,7 +41,6 @@ fun MainScreen (
             NavigationBar(
                 containerColor = MaterialTheme.colorScheme.surface
             ) {
-
                 items.forEach { item ->
                     NavigationBarItem(
                         selected = currentRoute == item.route,
@@ -78,6 +73,7 @@ fun MainScreen (
             modifier = Modifier.padding(paddingValues)
         ){
 
+            // Recipe List Screen
             composable(BottomRoute.Home.route){
                 RecipeListScreen(
                     onRecipeItemClick = { id ->
@@ -86,6 +82,23 @@ fun MainScreen (
                 )
             }
 
+            // Search Screen
+            composable(BottomRoute.Search.route){
+                SearchScreen(onRecipeClick =  { id ->
+                    navController.navigate("${Routes.RECIPE_DETAIL}/$id")
+                })
+            }
+
+            // Favorite Screen
+            composable(BottomRoute.Favorites.route){
+                FavoriteScreen(
+                    onRecipeItemClick = { id ->
+                        navController.navigate("${Routes.RECIPE_DETAIL}/$id")
+                    }
+                )
+            }
+
+            // Profile Screen
             composable(BottomRoute.Profile.route){
                 ProfileScreen(
                     onLogout = {
@@ -94,19 +107,6 @@ fun MainScreen (
                                 inclusive = true
                             }
                         }
-                    }
-                )
-            }
-
-            composable(BottomRoute.Search.route){
-                SearchScreen(onRecipeClick =  { id ->
-                    navController.navigate("${Routes.RECIPE_DETAIL}/$id")
-                })
-            }
-            composable(BottomRoute.Favorites.route){
-                FavoriteScreen(
-                    onRecipeItemClick = { id ->
-                        navController.navigate("${Routes.RECIPE_DETAIL}/$id")
                     }
                 )
             }

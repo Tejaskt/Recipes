@@ -63,7 +63,7 @@ fun AppNavGraph() {
             route = RootRoute.Main.route
         ){
 
-            // Dashboard
+            // Main Screen Nav Graph
             composable(BottomRoute.Home.route){
                 MainScreen(navController)
             }

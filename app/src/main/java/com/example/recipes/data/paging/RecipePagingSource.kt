@@ -11,6 +11,9 @@ class RecipePagingSource(
     private val category: String
 ) : PagingSource<Int, Recipe>() {
 
+
+    /*--- LOAD RECIPE FROM SERVER INTO PAGING SOURCE ---*/
+
     override suspend fun load(
         params: LoadParams<Int>
     ): LoadResult<Int, Recipe> {
@@ -46,6 +49,9 @@ class RecipePagingSource(
             LoadResult.Error(e)
         }
     }
+
+
+    /*--- ANCHOR POINT FOR PAGES ---*/
 
     override fun getRefreshKey(
         state: PagingState<Int, Recipe>

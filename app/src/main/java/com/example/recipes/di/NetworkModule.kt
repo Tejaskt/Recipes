@@ -18,6 +18,7 @@ object NetworkModule {
 
     private const val BASE_URL = "https://dummyjson.com/"
 
+    // PROVIDES HTTP CLIENT INSTANCE
     @Provides
     @Singleton
     fun provideOkHttpClient(): OkHttpClient =
@@ -29,6 +30,7 @@ object NetworkModule {
             )
             .build()
 
+    // PROVIDES RETROFIT INSTANCE
     @Provides
     @Singleton
     fun provideRetrofit(client: OkHttpClient): Retrofit =
@@ -38,11 +40,13 @@ object NetworkModule {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
+    // PROVIDES LOGIN API INSTANCE
     @Provides
     @Singleton
     fun provideAuthApi(retrofit: Retrofit): AuthApi =
         retrofit.create(AuthApi::class.java)
 
+    // PROVIDES RECIPE API INSTANCE
     @Provides
     @Singleton
     fun provideRecipeApi(retrofit: Retrofit) : RecipeApi =

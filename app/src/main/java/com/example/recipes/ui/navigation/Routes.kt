@@ -16,7 +16,6 @@ sealed class RootRoute(val route: String){
     object Main : RootRoute("main")
 }
 
-
 sealed class BottomRoute(
     val route: String,
     val icon : ImageVector,

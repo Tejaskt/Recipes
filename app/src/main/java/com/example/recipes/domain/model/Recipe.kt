@@ -1,5 +1,7 @@
 package com.example.recipes.domain.model
 
+
+// USE ONLY FOR SHOWING THE API DATA INTO UI THROUGH MAPPER CLASS
 data class Recipe (
     val id : Int,
     val title : String,

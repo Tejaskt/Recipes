@@ -15,7 +15,9 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.example.recipes.R
 import com.example.recipes.ui.screen.search.SearchFilterState
 
 @Composable
@@ -37,16 +39,16 @@ fun FilterContent(
             horizontalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text("Filters", style = MaterialTheme.typography.titleLarge)
+            Text(stringResource(R.string.filters), style = MaterialTheme.typography.titleLarge)
 
             TextButton(onClick = onClear) {
-                Text("Clear all")
+                Text(stringResource(R.string.clear_all))
             }
         }
 
         Spacer(Modifier.height(16.dp))
 
-        Text("Cuisine")
+        Text(stringResource(R.string.cuisine))
 
         Spacer(Modifier.height(8.dp))
 
@@ -55,16 +57,8 @@ fun FilterContent(
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
 
-            listOf(
-                "All",
-                "Italian",
-                "Asian",
-                "American",
-                "Indian",
-                "Greek",
-                "Mexican"
-            ).forEach { cuisine ->
-
+            listOf("All","Italian","Asian","American","Indian","Greek","Mexican")
+                .forEach { cuisine ->
                 FilterChip(
                     selected = filters.cuisine == cuisine,
                     onClick = { onCuisineSelected(cuisine) },
@@ -75,7 +69,7 @@ fun FilterContent(
 
         Spacer(Modifier.height(16.dp))
 
-        Text("Difficulty")
+        Text(stringResource(R.string.difficulty))
 
         Spacer(Modifier.height(8.dp))
 
@@ -100,7 +94,7 @@ fun FilterContent(
             onClick = onApply,
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text("Apply Filters")
+            Text(stringResource(R.string.apply_filters))
         }
     }
 }

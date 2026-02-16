@@ -10,7 +10,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.example.recipes.R
 import com.example.recipes.domain.model.Recipe
 
 @Composable
@@ -25,7 +27,7 @@ fun NutritionInfo(recipe: Recipe) {
     ) {
         Column {
             Text(
-                text = "Nutrition Info",
+                text = stringResource(R.string.nutrition_info),
                 style = MaterialTheme.typography.titleMedium,
                 modifier = Modifier.padding(top = 16.dp, start = 16.dp)
             )

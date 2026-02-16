@@ -18,8 +18,10 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.recipes.R
 import com.example.recipes.ui.screen.recipes.components.RecipeCard
 
 @Composable
@@ -43,7 +45,7 @@ fun FavoriteScreen (
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = "Favorite Recipes",
+                text = stringResource(R.string.favorite_recipes),
                 style = MaterialTheme.typography.headlineMedium
             )
             Text(

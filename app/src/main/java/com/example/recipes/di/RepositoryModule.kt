@@ -17,6 +17,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object RepositoryModule {
 
+    // PROVIDES AUTH REPOSITORY INSTANCE
     @Provides
     @Singleton
     fun provideAuthRepository(
@@ -27,6 +28,7 @@ object RepositoryModule {
         authDataStore
     )
 
+    // PROVIDES RECIPE REPOSITORY INSTANCE
     @Provides
     @Singleton
     fun provideRecipeRepository(

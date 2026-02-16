@@ -2,7 +2,11 @@ package com.example.recipes.ui.screen.recipeDetails
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.CircularProgressIndicator
@@ -72,7 +76,8 @@ fun RecipeDetailScreen(
 
             LazyColumn(
                 state = listState,
-                modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)
+                modifier = Modifier.wrapContentSize().background(MaterialTheme.colorScheme.background)
+                    .windowInsetsPadding(WindowInsets.displayCutout),
             ) {
                 item {
                     RecipeHeader(

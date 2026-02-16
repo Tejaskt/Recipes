@@ -13,6 +13,8 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object DataStoreModule {
 
+
+    // PROVIDES DATA STORE INSTANCE
     @Provides
     @Singleton
     fun provideAuthDataStore(

@@ -44,7 +44,7 @@ class LoginViewModel @Inject constructor(
                         )
                     }
 
-                is NetworkResult.Loading -> Unit // needs to change later...
+                is NetworkResult.Loading -> _uiState.update { it.copy(isLoading = true, error = null) }
             }
         }
     }

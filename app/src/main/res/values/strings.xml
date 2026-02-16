@@ -1,3 +1,44 @@
-<resources>
-    <string name="app_name">Recipify</string>
+<resources xmlns:tools="http://schemas.android.com/tools" >
+    <string name="app_name" translatable="true">Recipify</string>
+
+
+    <!-- LOG IN SCREEN -->
+    <string name="recipify" translatable="true">Recipify</string>
+    <string name="tagLine" translatable="true">Your Personal recipe companion</string>
+    <string name="email_address" translatable="true">Email Address</string>
+    <string name="password" translatable="true">Password</string>
+    <string name="forgot_password" translatable="true">Forgot Password?</string>
+    <string name="sign_in" translatable="true">Sign In</string>
+    <string name="don_t_have_an_account" translatable="true">Don\'t have an account?</string>
+    <string name="sign_up" translatable="true">Sign Up</string>
+    <string name="log_out" translatable="false">Log Out</string>
+
+    <!-- RECIPE LIST & DETAILS SCREEN -->
+    <string name="nutrition_info" translatable="false">Nutrition Info</string>
+    <string name="featured_recipe" translatable="false">Featured Recipe</string>
+    <string name="popular_recipes" translatable="false">Popular Recipes</string>
+    <string name="see_all" translatable="false">See All</string>
+    <string name="failed_to_load_recipes" translatable="false">Failed to load recipes</string>
+
+    <!-- SEARCH SCREEN -->
+    <string name="search_recipes" translatable="false">Search Recipes</string>
+    <string name="search_by" translatable="false">Search by name or ingredient…</string>
+    <string name="filters" translatable="false">Filters</string>
+    <string name="clear_all" translatable="false">Clear all</string>
+    <string name="cuisine" translatable="false">Cuisine</string>
+    <string name="difficulty" translatable="false">Difficulty</string>
+    <string name="apply_filters" translatable="false">Apply Filters</string>
+
+    <!-- PROFILE SCREEN -->
+    <string name="settings" translatable="false">Settings</string>
+    <string name="my_profile" translatable="false">My Profile</string>
+    <string name="favorite_recipes" translatable="false">Favorite Recipes</string>
+    <string name="favorites" translatable="false">Favorites</string>
+    <string name="recipes" translatable="false">Recipes</string>
+    <string name="reviews" translatable="false">Reviews</string>
+    <string name="my_favorites" translatable="false">My Favorites</string>
+    <string name="my_recipes" translatable="false">My Recipes</string>
+    <string name="notifications" translatable="false">Notifications</string>
+    <string name="help_support" translatable="false"><![CDATA[Help & Support]]></string>
+
 </resources>

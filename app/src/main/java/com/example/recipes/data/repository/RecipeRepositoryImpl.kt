@@ -20,6 +20,7 @@ class RecipeRepositoryImpl @Inject constructor(
     private val api : RecipeApi
 ) : RecipeRepository {
 
+    /*--- GET ALL RECIPES ---*/
     override fun getRecipes(category: String): Flow<PagingData<Recipe>> {
 
         return Pager(
@@ -53,6 +54,7 @@ class RecipeRepositoryImpl @Inject constructor(
         }
     }
 
+    /*--- SEARCH RECIPES ---*/
     override suspend fun searchRecipes(query: String): NetworkResult<List<Recipe>> {
         return try {
             val response = api.searchRecipes(query)
@@ -70,6 +72,7 @@ class RecipeRepositoryImpl @Inject constructor(
         }
     }
 
+    /*--- SORT RECIPES ---*/
     override suspend fun sortRecipes(
         sortBy: String,
         order: String
@@ -91,8 +94,8 @@ class RecipeRepositoryImpl @Inject constructor(
         }
     }
 
-    /*--- FAVORITE SECTION ---*/
 
+    /*--- FAVORITE RECIPES ---*/
     private val _favoriteItems = MutableStateFlow<List<Recipe>>(emptyList())
 
     override val favoriteItems = _favoriteItems.asStateFlow()

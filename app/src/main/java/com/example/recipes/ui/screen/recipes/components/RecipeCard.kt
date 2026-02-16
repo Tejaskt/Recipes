@@ -1,7 +1,6 @@
 package com.example.recipes.ui.screen.recipes.components
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -33,7 +32,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.example.recipes.domain.model.Recipe
-import com.example.recipes.ui.theme.TextTertiary
 
 @Composable
 fun RecipeCard(
@@ -41,7 +39,7 @@ fun RecipeCard(
     onClick: (Int) -> Unit
 ) {
     Card(
-        modifier = Modifier.fillMaxWidth(),//.clickable{ onClick(recipe.id) },
+        modifier = Modifier.fillMaxWidth(),
         onClick = { onClick(recipe.id)} ,
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
@@ -71,7 +69,6 @@ fun RecipeCard(
                         Text(
                             text = " • ${recipe.cuisine}",
                             style = MaterialTheme.typography.bodySmall,
-//                            color = TextTertiary
                         )
                     }
 

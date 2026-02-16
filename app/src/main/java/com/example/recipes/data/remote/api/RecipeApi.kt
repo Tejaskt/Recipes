@@ -9,6 +9,8 @@ import retrofit2.http.Query
 
 interface RecipeApi {
 
+
+    /*--- GET ALL RECIPES ---*/
     @GET("recipes")
     suspend fun getRecipes(
         @Query("limit") limit : Int,
@@ -20,11 +22,15 @@ interface RecipeApi {
         @Path("id") id : Int
     ): Response<RecipeDto>
 
+
+    /*--- SEARCH ---*/
     @GET("recipes/search")
     suspend fun searchRecipes(
         @Query("q") query : String
     ) : Response<RecipesResponseDto>
 
+
+    /*--- SORTING ---*/
     @GET("recipes")
     suspend fun getSortedRecipes(
         @Query("sortBy") sortBy : String,

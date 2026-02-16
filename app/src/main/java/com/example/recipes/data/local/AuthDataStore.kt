@@ -2,10 +2,8 @@ package com.example.recipes.data.local
 
 import android.content.Context
 import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
-import coil3.Image
 import com.example.recipes.domain.model.User
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
@@ -58,12 +56,6 @@ class AuthDataStore @Inject constructor(
             prefs[ACCESS_TOKEN]
         }
 
-//    suspend fun saveToken(token: String) {
-//        context.dataStore.edit { prefs ->
-//            prefs[ACCESS_TOKEN] = token
-//        }
-//    }
-
     suspend fun clearToken() {
         context.dataStore.edit { prefs ->
             prefs.remove(ACCESS_TOKEN)
@@ -71,7 +63,6 @@ class AuthDataStore @Inject constructor(
     }
 
     // user
-
     val user: Flow<User?> =
         context.dataStore.data.map { prefs ->
 

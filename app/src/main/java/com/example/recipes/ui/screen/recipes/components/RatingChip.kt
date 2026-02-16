@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 fun RatingChip(rating: Double) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
+
         modifier = Modifier
             .background(
                 MaterialTheme.colorScheme.onBackground.copy(alpha = 0.8f),
@@ -34,7 +35,9 @@ fun RatingChip(rating: Double) {
             tint = MaterialTheme.colorScheme.primary,
             modifier = Modifier.size(14.dp)
         )
+
         Spacer(Modifier.width(4.dp))
+
         Text(
             text = rating.toString(),
             color = MaterialTheme.colorScheme.onPrimary,
