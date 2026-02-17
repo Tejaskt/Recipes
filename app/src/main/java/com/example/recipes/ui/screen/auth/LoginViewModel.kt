@@ -62,10 +62,9 @@ class LoginViewModel @Inject constructor(
     fun onFacebookUserFetched(
         name: String,
         email: String,
-        profileUrl: String
     ) {
         _authState.value = AuthUiState.Success(
-            FacebookUser(name, email, profileUrl)
+            FacebookUser(name, email)
         )
     }
 

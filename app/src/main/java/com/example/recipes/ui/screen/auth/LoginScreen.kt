@@ -20,6 +20,7 @@ import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.outlined.Login
 import androidx.compose.material.icons.outlined.Email
 import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material3.Button
@@ -76,20 +77,16 @@ fun LoginScreen(
             is AuthUiState.Success -> {
                 Log.d("FB_USER", "Name: ${authState.user.name}")
                 Log.d("FB_USER", "Email: ${authState.user.email}")
-                Log.d("FB_USER", "Photo: ${authState.user.profileUrl}")
-
                 onLoginSuccess()
             }
 
             is AuthUiState.Error -> {
-                state.error = authState.message
+               //
             }
 
             else -> {}
         }
     }
-
-
 
     LaunchedEffect(Unit) {
 
@@ -102,7 +99,7 @@ fun LoginScreen(
 
                     val request = GraphRequest.newMeRequest(
                         result.accessToken
-                    ) { obj, response ->
+                    ) { obj, _ ->
 
                         if (obj != null) {
                             val name = obj.optString("name")
@@ -114,8 +111,7 @@ fun LoginScreen(
 
                             viewModel.onFacebookUserFetched(
                                 name = name,
-                                email = email,
-                                profileUrl = profilePicture
+                                email = email
                             )
                         } else {
                             viewModel.onFacebookError("Failed to fetch profile")
@@ -269,12 +265,29 @@ fun LoginScreen(
                         activity,
                         listOf("email", "public_profile")
                     )
-                }
+                },
+                shape = MaterialTheme.shapes.medium,
+                colors = ButtonDefaults.buttonColors(containerColor = Color.Blue),
             ) {
-                Text("Continue with Facebook")
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(4.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(Icons.AutoMirrored.Outlined.Login,null)
+                    Text("Continue with Facebook")
+                }
             }
 
             //FacebookLoginButton()
+
+            if(authState is AuthUiState.Error){
+                Spacer(Modifier.height(12.dp))
+                Text(
+                    text = (authState as AuthUiState.Error).message,
+                    color = MaterialTheme.colorScheme.error
+                )
+            }
+
 
             state.error?.let {
                 Spacer(Modifier.height(12.dp))
