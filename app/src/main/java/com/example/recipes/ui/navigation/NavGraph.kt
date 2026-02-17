@@ -11,9 +11,10 @@ import androidx.navigation.navigation
 import com.example.recipes.ui.screen.auth.LoginScreen
 import com.example.recipes.ui.screen.recipeDetails.RecipeDetailScreen
 import com.example.recipes.ui.screen.splash.SplashScreen
+import com.facebook.CallbackManager
 
 @Composable
-fun AppNavGraph() {
+fun AppNavGraph(callbackManager: CallbackManager) {
 
     val navController : NavHostController = rememberNavController()
 
@@ -52,7 +53,8 @@ fun AppNavGraph() {
                                 inclusive = true
                             }
                         }
-                    }
+                    },
+                    callbackManager = callbackManager
                 )
             }
         }

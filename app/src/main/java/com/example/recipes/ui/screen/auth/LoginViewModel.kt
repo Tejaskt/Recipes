@@ -2,6 +2,7 @@ package com.example.recipes.ui.screen.auth
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.recipes.domain.model.FacebookUser
 import com.example.recipes.domain.repository.AuthRepository
 import com.example.recipes.utils.NetworkResult
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -48,4 +49,25 @@ class LoginViewModel @Inject constructor(
             }
         }
     }
+
+
+    /*--- FACEBOOK LOGIN---*/
+    private val _authState = MutableStateFlow<AuthUiState>(AuthUiState.Idle)
+    val authState: StateFlow<AuthUiState> = _authState
+
+    fun onFacebookError(message: String) {
+        _authState.value = AuthUiState.Error(message)
+    }
+
+    fun onFacebookUserFetched(
+        name: String,
+        email: String,
+        profileUrl: String
+    ) {
+        _authState.value = AuthUiState.Success(
+            FacebookUser(name, email, profileUrl)
+        )
+    }
+
+
 }

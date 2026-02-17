@@ -1,5 +1,9 @@
 package com.example.recipes.ui.screen.auth
 
+import android.annotation.SuppressLint
+import android.app.Activity
+import android.os.Bundle
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -27,12 +31,16 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -43,13 +51,97 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.recipes.R
 import com.example.recipes.ui.theme.CreamBackground
 import com.example.recipes.ui.theme.RecipesTheme
+import com.facebook.CallbackManager
+import com.facebook.FacebookCallback
+import com.facebook.FacebookException
+import com.facebook.GraphRequest
+import com.facebook.login.LoginManager
+import com.facebook.login.LoginResult
 
+@SuppressLint("ContextCastToActivity")
 @Composable
 fun LoginScreen(
     onLoginSuccess: () -> Unit,
-    viewModel: LoginViewModel = hiltViewModel()
+    viewModel: LoginViewModel = hiltViewModel(),
+    callbackManager: CallbackManager
 ) {
+    val context = LocalContext.current
+    val activity = context as Activity
     val state by viewModel.uiState.collectAsState()
+    val authState by viewModel.authState.collectAsState()
+
+    LaunchedEffect(authState) {
+        when (val authState = authState) {
+
+            is AuthUiState.Success -> {
+                Log.d("FB_USER", "Name: ${authState.user.name}")
+                Log.d("FB_USER", "Email: ${authState.user.email}")
+                Log.d("FB_USER", "Photo: ${authState.user.profileUrl}")
+
+                onLoginSuccess()
+            }
+
+            is AuthUiState.Error -> {
+                state.error = authState.message
+            }
+
+            else -> {}
+        }
+    }
+
+
+
+    LaunchedEffect(Unit) {
+
+        LoginManager.getInstance().registerCallback(
+
+            callbackManager,
+            callback = object : FacebookCallback<LoginResult> {
+
+                override fun onSuccess(result: LoginResult) {
+
+                    val request = GraphRequest.newMeRequest(
+                        result.accessToken
+                    ) { obj, response ->
+
+                        if (obj != null) {
+                            val name = obj.optString("name")
+                            val email = obj.optString("email")
+                            val id = obj.optString("id")
+
+                            val profilePicture =
+                                "https://graph.facebook.com/$id/picture?type=large"
+
+                            viewModel.onFacebookUserFetched(
+                                name = name,
+                                email = email,
+                                profileUrl = profilePicture
+                            )
+                        } else {
+                            viewModel.onFacebookError("Failed to fetch profile")
+                        }
+                    }
+
+                    val parameters = Bundle()
+                    parameters.putString(
+                        "fields",
+                        "id,name,email"
+                    )
+                    request.parameters = parameters
+                    request.executeAsync()
+                }
+
+
+                override fun onCancel() {
+                    viewModel.onFacebookError("Login Cancelled")
+                }
+
+                override fun onError(error: FacebookException) {
+                    viewModel.onFacebookError(error.message ?: "Unknown Error")
+                }
+            }
+        )
+    }
 
     LazyColumn(
         modifier = Modifier
@@ -168,6 +260,22 @@ fun LoginScreen(
                 )
             }
 
+            Spacer(modifier =  Modifier.height(20.dp))
+
+            /*-- FACEBOOK LOGIN--*/
+            Button(
+                onClick = {
+                    LoginManager.getInstance().logInWithReadPermissions(
+                        activity,
+                        listOf("email", "public_profile")
+                    )
+                }
+            ) {
+                Text("Continue with Facebook")
+            }
+
+            //FacebookLoginButton()
+
             state.error?.let {
                 Spacer(Modifier.height(12.dp))
                 Text(it, color = MaterialTheme.colorScheme.error)
@@ -175,6 +283,47 @@ fun LoginScreen(
         }
     }
 }
+
+@Composable
+fun FacebookLoginButton() {
+
+    val context = LocalContext.current
+    val activity = context as Activity
+    val callbackManager = remember { CallbackManager.Factory.create() }
+
+    val loginManager = LoginManager.getInstance()
+
+    DisposableEffect(Unit) {
+        loginManager.registerCallback(callbackManager,
+            object : FacebookCallback<LoginResult>{
+
+                override fun onSuccess(result: LoginResult) {
+                    val accessToken = result.accessToken
+                    Log.d("FB_LOGIN", "Token: ${accessToken.token}")
+                }
+
+                override fun onCancel() {
+                    Log.d("FB_LOGIN", "Cancelled")
+                }
+
+
+                override fun onError(error: FacebookException) {
+                    Log.e("FB_LOGIN", error.message ?: "")
+                }
+            })
+        onDispose {}
+    }
+
+    Button(onClick = {
+        loginManager.logInWithReadPermissions(
+            activity,
+            listOf("email", "public_profile")
+        )
+    }) {
+        Text("Continue with Facebook")
+    }
+}
+
 
 @Preview
 @Composable
