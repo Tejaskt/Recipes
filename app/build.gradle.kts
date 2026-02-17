@@ -107,7 +107,9 @@ dependencies {
     implementation(libs.androidx.paging.compose)
 
     // Data store
-    implementation("androidx.datastore:datastore-preferences:1.1.1")
+    implementation(libs.androidx.datastore.preferences)
 
+    // facebook
+    implementation(libs.facebook.login)
 
 }

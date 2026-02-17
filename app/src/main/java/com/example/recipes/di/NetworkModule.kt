@@ -12,8 +12,27 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
+
+/*
+Annotation	Meaning
+@Module	 => Container for manual dependency recipes
+@Provides => How to build a dependency
+@InstallIn => Where (which lifecycle) it belongs
+@Singleton => How long to keep it (cache rule)
+*
+* */
 @Module
 @InstallIn(SingletonComponent::class)
+/* Component
+
+*  SingletonComponent -> app lifetime
+*           |
+* ActivityComponent -> per Activity
+*           |
+* ViewModelComponent -> per ViewModel
+
+* */
+
 object NetworkModule {
 
     private const val BASE_URL = "https://dummyjson.com/"
@@ -21,6 +40,11 @@ object NetworkModule {
     // PROVIDES HTTP CLIENT INSTANCE
     @Provides
     @Singleton
+    /*
+    * @SingletonComponent -> if Singleton use with this than one instance for whole app
+    * @ActivityComponent -> used with this than one instance per activity.
+    *
+    * */
     fun provideOkHttpClient(): OkHttpClient =
         OkHttpClient.Builder()
             .addInterceptor(

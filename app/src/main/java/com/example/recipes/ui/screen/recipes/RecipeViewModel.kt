@@ -19,6 +19,12 @@ import javax.inject.Inject
 
 @OptIn(ExperimentalCoroutinesApi::class)
 
+/*
+* HiltViewModel : this tells it that this class is VM and should live inside the viewModelComponent.
+*   WHERE THE VIEWMODEL LIVES.
+* Inject : this is the constructor to use when creating this class.
+*   HOW THE VIEWMODEL IS CREATED.
+* */
 @HiltViewModel
 class RecipeViewModel @Inject constructor(
     repository: RecipeRepository

@@ -9,6 +9,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import javax.inject.Singleton
 
 private val Context.dataStore by preferencesDataStore(
     name = "auth_prefs"
@@ -36,6 +37,7 @@ private val Context.dataStore by preferencesDataStore(
 *      IV) Quick Data Migration
 *
 * */
+@Singleton
 class AuthDataStore @Inject constructor(
     @ApplicationContext private val context: Context
 ) {

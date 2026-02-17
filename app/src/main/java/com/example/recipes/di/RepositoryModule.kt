@@ -1,37 +1,41 @@
 package com.example.recipes.di
 
-import com.example.recipes.data.local.AuthDataStore
-import com.example.recipes.data.remote.api.AuthApi
-import com.example.recipes.data.remote.api.RecipeApi
 import com.example.recipes.data.repository.AuthRepositoryImpl
 import com.example.recipes.data.repository.RecipeRepositoryImpl
 import com.example.recipes.domain.repository.AuthRepository
 import com.example.recipes.domain.repository.RecipeRepository
+import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object RepositoryModule {
+abstract class RepositoryModule{
 
-    // PROVIDES AUTH REPOSITORY INSTANCE
-    @Provides
+    @Binds
     @Singleton
-    fun provideAuthRepository(
-        api: AuthApi,
-        authDataStore: AuthDataStore
-    ): AuthRepository = AuthRepositoryImpl(
-        api,
-        authDataStore
-    )
+    abstract fun bindAuthRepository(
+        impl: AuthRepositoryImpl
+    ) : AuthRepository
 
-    // PROVIDES RECIPE REPOSITORY INSTANCE
-    @Provides
+    @Binds
     @Singleton
-    fun provideRecipeRepository(
-        api: RecipeApi
-    ) : RecipeRepository = RecipeRepositoryImpl(api)
+    abstract fun bindRecipeRepository(
+        impl : RecipeRepositoryImpl
+    ) : RecipeRepository
+
 }
+
+/* Refactor
+* Core Difference
+* @Provides	                            @Binds
+*
+* You construct object manually	        Hilt constructs it
+* Works without @Inject constructor	    Requires @Inject constructor
+* Can contain logic	                    No logic allowed
+* Slightly more overhead	            More efficient (compile-time binding)
+* Used for complex creation	            Used for simple interface → implementation mapping
+*
+* */

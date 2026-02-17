@@ -15,7 +15,9 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
 import okio.IOException
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class RecipeRepositoryImpl @Inject constructor(
     private val api : RecipeApi
 ) : RecipeRepository {

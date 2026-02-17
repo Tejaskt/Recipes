@@ -41,4 +41,9 @@
     <string name="notifications" translatable="false">Notifications</string>
     <string name="help_support" translatable="false"><![CDATA[Help & Support]]></string>
 
+    <!-- FACEBOOK --> <!-- HASH KEY : 2xUL3TkJmwIoYEd7syG3vri9dRY= -->
+    <string name="facebook_app_id" translatable="false">1665771971253793</string>
+    <string name="fb_login_protocol_scheme" translatable="false">fb1665771971253793</string>
+    <string name="facebook_client_token" translatable="false">e2dcf27654c92abab8c80bdb523bd996</string>
+
 </resources>
