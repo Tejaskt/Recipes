@@ -8,11 +8,13 @@ import dagger.hilt.android.HiltAndroidApp
 @Suppress("DEPRECATION")
 @HiltAndroidApp
 class App() : Application(){
+
     override fun onCreate() {
         super.onCreate()
 
-        // Initialize SDK in Application Class
+        // SDK Initialize for facebook login.
         FacebookSdk.sdkInitialize(applicationContext)
         AppEventsLogger.activateApp(this)
     }
+
 }

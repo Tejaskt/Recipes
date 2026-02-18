@@ -112,4 +112,7 @@ dependencies {
     // facebook
     implementation(libs.facebook.login)
 
+    // google
+    implementation(libs.play.services.auth)
+
 }

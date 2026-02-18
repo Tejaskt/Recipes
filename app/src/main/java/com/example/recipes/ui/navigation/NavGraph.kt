@@ -1,5 +1,7 @@
 package com.example.recipes.ui.navigation
 
+import android.content.Intent
+import androidx.activity.result.ActivityResultLauncher
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -12,9 +14,15 @@ import com.example.recipes.ui.screen.auth.LoginScreen
 import com.example.recipes.ui.screen.recipeDetails.RecipeDetailScreen
 import com.example.recipes.ui.screen.splash.SplashScreen
 import com.facebook.CallbackManager
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
 
 @Composable
-fun AppNavGraph(callbackManager: CallbackManager) {
+fun AppNavGraph(
+    callbackManager: CallbackManager,
+    googleSignInClient: GoogleSignInClient,
+    googleSignInLauncher: ActivityResultLauncher<Intent>,
+    setGoogleResultListener: (( (String, String) -> Unit ) -> Unit)
+) {
 
     val navController : NavHostController = rememberNavController()
 
@@ -48,13 +56,16 @@ fun AppNavGraph(callbackManager: CallbackManager) {
             composable(Routes.LOGIN){
                 LoginScreen(
                     onLoginSuccess = {
-                        navController.navigate(RootRoute.Main.route){
-                            popUpTo(RootRoute.Auth.route){
+                        navController.navigate(RootRoute.Main.route) {
+                            popUpTo(RootRoute.Auth.route) {
                                 inclusive = true
                             }
                         }
                     },
-                    callbackManager = callbackManager
+                    callbackManager = callbackManager,
+                    googleSignInClient = googleSignInClient,
+                    googleSignInLauncher = googleSignInLauncher,
+                    setGoogleResultListener = setGoogleResultListener
                 )
             }
         }

@@ -45,5 +45,8 @@
     <string name="facebook_app_id" translatable="false">1665771971253793</string>
     <string name="fb_login_protocol_scheme" translatable="false">fb1665771971253793</string>
     <string name="facebook_client_token" translatable="false">e2dcf27654c92abab8c80bdb523bd996</string>
+    
+    <!-- Google -->
+    <string name="gcp_id" translatable="false">690321186147-3lqnb3bprfhk01a4pbblodq40q24php3.apps.googleusercontent.com</string>
 
 </resources>
