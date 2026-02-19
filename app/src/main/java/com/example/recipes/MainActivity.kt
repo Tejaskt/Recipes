@@ -38,7 +38,7 @@ class MainActivity : ComponentActivity() {
         // facebook login
         callbackManager = CallbackManager.Factory.create()
 
-        // google sign in
+        // google sign in oauth instance
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestEmail()
             //.requestIdToken(getString(R.string.gcp_id))
@@ -59,7 +59,8 @@ class MainActivity : ComponentActivity() {
                     googleSignInLauncher = googleSignInLauncher,
                     setGoogleResultListener = { listener ->
                         onGoogleResult = listener
-                    }
+                    },
+
                 )
             }
         }
@@ -74,7 +75,6 @@ class MainActivity : ComponentActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         callbackManager.onActivityResult(requestCode, resultCode, data)
     }
-
 
 
     // Activity Result Api For google signIn

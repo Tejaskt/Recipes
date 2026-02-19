@@ -1,6 +1,5 @@
 package com.example.recipes.ui.screen.search
 
-import android.os.Message
 import com.example.recipes.domain.model.Recipe
 
 sealed class SearchUiState {

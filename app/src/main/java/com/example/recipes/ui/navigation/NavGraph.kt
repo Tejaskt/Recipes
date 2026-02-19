@@ -21,8 +21,8 @@ fun AppNavGraph(
     callbackManager: CallbackManager,
     googleSignInClient: GoogleSignInClient,
     googleSignInLauncher: ActivityResultLauncher<Intent>,
-    setGoogleResultListener: (( (String, String) -> Unit ) -> Unit)
-) {
+    setGoogleResultListener: (( (String, String) -> Unit ) -> Unit),
+    ) {
 
     val navController : NavHostController = rememberNavController()
 
@@ -78,7 +78,10 @@ fun AppNavGraph(
 
             // Main Screen Nav Graph
             composable(BottomRoute.Home.route){
-                MainScreen(navController)
+                MainScreen(
+                    navController = navController,
+                    googleSignInClient = googleSignInClient
+                )
             }
 
             // Recipe Details

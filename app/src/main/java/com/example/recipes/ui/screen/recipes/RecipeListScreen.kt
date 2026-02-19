@@ -1,30 +1,41 @@
 package com.example.recipes.ui.screen.recipes
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Card
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
+import coil3.compose.AsyncImage
 import com.example.recipes.R
 import com.example.recipes.domain.model.Recipe
-import com.example.recipes.ui.screen.recipes.components.CategoryChips
-import com.example.recipes.ui.screen.recipes.components.ErrorItem
-import com.example.recipes.ui.screen.recipes.components.FeaturedRecipeCard
-import com.example.recipes.ui.screen.recipes.components.LoadingItem
-import com.example.recipes.ui.screen.recipes.components.RecipeCard
-import com.example.recipes.ui.screen.recipes.components.SectionHeader
+import com.example.recipes.utils.RecipeCard
 
 @Composable
 fun RecipeListScreen(
@@ -110,5 +121,150 @@ fun RecipeListScreen(
     }
 }
 
+@Composable
+fun CategoryChips(
+    selectedCategory: String,
+    onCategorySelected: (String) -> Unit
+) {
+    val categories = listOf("All", "Breakfast", "Lunch", "Dinner", "Snack", "Dessert")
+
+    LazyRow(
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        items(categories) { category ->
+            CategoryChip(
+                text = category,
+                selected = category == selectedCategory,
+                onClick = { onCategorySelected(category) }
+            )
+        }
+    }
+}
+
+@Composable
+fun CategoryChip(
+    text: String,
+    selected: Boolean,
+    onClick: () -> Unit
+) {
+    Box(
+        modifier = Modifier
+            .clickable{onClick()}
+            .background(
+                if (selected)
+                    MaterialTheme.colorScheme.primary
+                else
+                    MaterialTheme.colorScheme.surface,
+                RoundedCornerShape(50)
+            )
+            .padding(horizontal = 16.dp, vertical = 8.dp)
+    ) {
+        Text(
+            text = text,
+            style = MaterialTheme.typography.labelMedium,
+            color = if (selected)
+                MaterialTheme.colorScheme.onPrimary
+            else
+                MaterialTheme.colorScheme.onSecondary
+        )
+    }
+}
+
+@Composable
+fun ErrorItem(message: String) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(24.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(message)
+    }
+}
+
+@Composable
+fun FeaturedRecipeCard(recipe: Recipe?) {
+    recipe ?: return
+
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(200.dp),
+        shape = RoundedCornerShape(20.dp)
+    ) {
+        Box {
+            AsyncImage(
+                model = recipe.imageUrl,
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier.fillMaxSize()
+            )
+
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(
+                        Brush.verticalGradient(
+                            listOf(Color.Transparent, Color.Black.copy(0.6f))
+                        )
+                    )
+            )
+
+            Column(
+                modifier = Modifier
+                    .align(Alignment.BottomStart)
+                    .padding(16.dp)
+            ) {
+                Text(
+                    text = stringResource(R.string.featured_recipe),
+                    style = MaterialTheme.typography.labelSmall,
+                    color = Color.White
+                )
+                Text(
+                    text = recipe.title,
+                    style = MaterialTheme.typography.titleMedium,
+                    color = Color.White
+                )
+                Text(
+                    text = "${recipe.cuisine} • ${recipe.time}",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = Color.White.copy(alpha = 0.8f)
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun LoadingItem() {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(24.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        CircularProgressIndicator()
+    }
+}
+
+@Composable
+fun SectionHeader(
+    title: String,
+    actionText: String
+) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Text(
+            text = title,
+            style = MaterialTheme.typography.titleMedium
+        )
+        Text(
+            text = actionText,
+            color = MaterialTheme.colorScheme.primary
+        )
+    }
+}
 
 

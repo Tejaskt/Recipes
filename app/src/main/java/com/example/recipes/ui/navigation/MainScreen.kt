@@ -9,11 +9,8 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarHost
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -24,11 +21,13 @@ import com.example.recipes.ui.screen.favorites.FavoriteScreen
 import com.example.recipes.ui.screen.profile.ProfileScreen
 import com.example.recipes.ui.screen.recipes.RecipeListScreen
 import com.example.recipes.ui.screen.search.SearchScreen
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
 
 @Composable
 fun MainScreen (
-    navController: NavHostController
-){
+    navController: NavHostController,
+    googleSignInClient: GoogleSignInClient,
+    ){
 
     // Separate Bottom nav stack
     val bottomNavController = rememberNavController()
@@ -110,8 +109,9 @@ fun MainScreen (
                                 inclusive = true
                             }
                         }
-                    }
-                )
+                    },
+                    googleSignInClient = googleSignInClient,
+                    )
             }
         }
 

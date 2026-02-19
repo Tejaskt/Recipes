@@ -22,7 +22,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.recipes.R
-import com.example.recipes.ui.screen.recipes.components.RecipeCard
+import com.example.recipes.utils.RecipeCard
 
 @Composable
 fun FavoriteScreen (

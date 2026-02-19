@@ -18,17 +18,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsPadding
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.outlined.Login
 import androidx.compose.material.icons.outlined.Email
 import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
@@ -40,7 +36,6 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -49,7 +44,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.GraphicsLayerScope
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -67,7 +61,6 @@ import com.facebook.FacebookException
 import com.facebook.GraphRequest
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
-import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 
 @SuppressLint("ContextCastToActivity")
@@ -88,16 +81,16 @@ fun LoginScreen(
 
     // facebook login ui state
     LaunchedEffect(authState) {
-        when (val authState = authState) {
+        when (authState) {
 
             is AuthUiState.Success -> {
-                Log.d("FB_USER", "Name: ${authState.user.name}")
-                Log.d("FB_USER", "Email: ${authState.user.email}")
+                Log.d("FB_USER", "Name: ${(authState as AuthUiState.Success).user.name}")
+                Log.d("FB_USER", "Email: ${(authState as AuthUiState.Success).user.email}")
                 onLoginSuccess()
             }
 
             is AuthUiState.Error -> {
-                snackBarHostState.showSnackbar(authState.message)
+                snackBarHostState.showSnackbar((authState as AuthUiState.Error).message)
             }
 
             else -> {}
@@ -325,7 +318,7 @@ fun LoginScreen(
                         shape = MaterialTheme.shapes.medium,
                     )
                     {
-                        Text("Continue with FB")
+                        Text(stringResource(R.string.continue_with_fb))
                     }
 
                     /*--- GOOGLE LOGIN ---*/
@@ -341,7 +334,7 @@ fun LoginScreen(
                         shape = MaterialTheme.shapes.medium,
                     )
                     {
-                        Text("Continue with Google")
+                        Text(stringResource(R.string.continue_with_google))
                     }
 
                 }

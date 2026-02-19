@@ -1,4 +1,4 @@
-package com.example.recipes.ui.screen.recipes.components
+package com.example.recipes.utils
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -12,8 +12,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.outlined.AccessTime
 import androidx.compose.material.icons.outlined.LocalFireDepartment
 import androidx.compose.material.icons.outlined.SupervisorAccount
@@ -137,5 +139,34 @@ fun CardLastRow(icon : ImageVector, text : String){
     Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(2.dp)) {
         Icon(imageVector = icon, null, modifier = Modifier.size(size = 20.dp))
         Text(text, style = MaterialTheme.typography.bodySmall)
+    }
+}
+
+@Composable
+fun RatingChip(rating: Double) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+
+        modifier = Modifier
+            .background(
+                MaterialTheme.colorScheme.onBackground.copy(alpha = 0.8f),
+                RoundedCornerShape(12.dp)
+            )
+            .padding(horizontal = 8.dp, vertical = 4.dp)
+    ) {
+        Icon(
+            imageVector = Icons.Default.Star,
+            contentDescription = null,
+            tint = MaterialTheme.colorScheme.primary,
+            modifier = Modifier.size(14.dp)
+        )
+
+        Spacer(Modifier.width(4.dp))
+
+        Text(
+            text = rating.toString(),
+            color = MaterialTheme.colorScheme.onPrimary,
+            style = MaterialTheme.typography.labelSmall
+        )
     }
 }

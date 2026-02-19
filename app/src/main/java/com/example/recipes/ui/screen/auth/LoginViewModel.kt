@@ -66,6 +66,7 @@ class LoginViewModel @Inject constructor(
 
 
     /*--- FACEBOOK LOGIN---*/
+
     private val _authState = MutableStateFlow<AuthUiState>(AuthUiState.Idle)
     val authState: StateFlow<AuthUiState> = _authState
 
