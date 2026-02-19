@@ -1,7 +1,5 @@
 package com.example.recipes.ui.navigation
 
-import android.content.Intent
-import androidx.activity.result.ActivityResultLauncher
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -14,15 +12,11 @@ import com.example.recipes.ui.screen.auth.LoginScreen
 import com.example.recipes.ui.screen.recipeDetails.RecipeDetailScreen
 import com.example.recipes.ui.screen.splash.SplashScreen
 import com.facebook.CallbackManager
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
 
 @Composable
 fun AppNavGraph(
-    callbackManager: CallbackManager,
-    googleSignInClient: GoogleSignInClient,
-    googleSignInLauncher: ActivityResultLauncher<Intent>,
-    setGoogleResultListener: (( (String, String) -> Unit ) -> Unit),
-    ) {
+    callbackManager: CallbackManager
+) {
 
     val navController : NavHostController = rememberNavController()
 
@@ -62,10 +56,7 @@ fun AppNavGraph(
                             }
                         }
                     },
-                    callbackManager = callbackManager,
-                    googleSignInClient = googleSignInClient,
-                    googleSignInLauncher = googleSignInLauncher,
-                    setGoogleResultListener = setGoogleResultListener
+                    callbackManager = callbackManager
                 )
             }
         }
@@ -79,8 +70,7 @@ fun AppNavGraph(
             // Main Screen Nav Graph
             composable(BottomRoute.Home.route){
                 MainScreen(
-                    navController = navController,
-                    googleSignInClient = googleSignInClient
+                    navController = navController
                 )
             }
 

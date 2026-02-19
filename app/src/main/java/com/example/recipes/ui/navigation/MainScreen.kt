@@ -21,13 +21,11 @@ import com.example.recipes.ui.screen.favorites.FavoriteScreen
 import com.example.recipes.ui.screen.profile.ProfileScreen
 import com.example.recipes.ui.screen.recipes.RecipeListScreen
 import com.example.recipes.ui.screen.search.SearchScreen
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
 
 @Composable
 fun MainScreen (
-    navController: NavHostController,
-    googleSignInClient: GoogleSignInClient,
-    ){
+    navController: NavHostController
+){
 
     // Separate Bottom nav stack
     val bottomNavController = rememberNavController()
@@ -109,9 +107,7 @@ fun MainScreen (
                                 inclusive = true
                             }
                         }
-                    },
-                    googleSignInClient = googleSignInClient,
-                    )
+                    })
             }
         }
 

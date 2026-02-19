@@ -2,10 +2,8 @@ package com.example.recipes.ui.screen.auth
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.content.Intent
-import android.os.Bundle
-import android.util.Log
-import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -58,116 +56,61 @@ import com.example.recipes.ui.theme.RecipesTheme
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
 import com.facebook.FacebookException
-import com.facebook.GraphRequest
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
 
 @SuppressLint("ContextCastToActivity")
 @Composable
 fun LoginScreen(
     onLoginSuccess: () -> Unit,
     viewModel: LoginViewModel = hiltViewModel(),
-    callbackManager: CallbackManager,
-    googleSignInClient: GoogleSignInClient,
-    googleSignInLauncher: ActivityResultLauncher<Intent>,
-    setGoogleResultListener: (((String, String) -> Unit) -> Unit)
+    callbackManager: CallbackManager
 ) {
+
     val context = LocalContext.current
     val activity = context as Activity
     val state by viewModel.uiState.collectAsState()
-    val authState by viewModel.authState.collectAsState()
     val snackBarHostState = remember { SnackbarHostState() }
 
-    // facebook login ui state
-    LaunchedEffect(authState) {
-        when (authState) {
 
-            is AuthUiState.Success -> {
-                Log.d("FB_USER", "Name: ${(authState as AuthUiState.Success).user.name}")
-                Log.d("FB_USER", "Email: ${(authState as AuthUiState.Success).user.email}")
-                onLoginSuccess()
+    LaunchedEffect(Unit) {
+        viewModel.events.collect { event ->
+            when (event) {
+                is LoginEvent.NavigateToHome -> onLoginSuccess()
+                is LoginEvent.ShowError -> snackBarHostState.showSnackbar(event.message)
             }
-
-            is AuthUiState.Error -> {
-                snackBarHostState.showSnackbar((authState as AuthUiState.Error).message)
-            }
-
-            else -> {}
         }
     }
 
-    // facebook login
+    /*--- Google Launcher (Activity Result) ---*/
+    val googleLauncher =
+        rememberLauncherForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) { result ->
+            viewModel.loginWithGoogle(result.data)
+        }
+
+    /*--- Facebook CallBack ---*/
     LaunchedEffect(Unit) {
         LoginManager.getInstance().registerCallback(
-
             callbackManager,
-            callback = object : FacebookCallback<LoginResult> {
+            object : FacebookCallback<LoginResult> {
 
                 override fun onSuccess(result: LoginResult) {
-
-                    val request = GraphRequest.newMeRequest(
-                        result.accessToken
-                    ) { obj, _ ->
-
-                        if (obj != null) {
-                            val name = obj.optString("name")
-                            val email = obj.optString("email")
-
-                            viewModel.onFacebookUserFetched(
-                                name = name,
-                                email = email
-                            )
-                        } else {
-                            viewModel.onFacebookError("Failed to fetch profile")
-                        }
-                    }
-
-                    val parameters = Bundle()
-                    parameters.putString(
-                        "fields",
-                        "id,name,email"
-                    )
-                    request.parameters = parameters
-                    request.executeAsync()
+                    viewModel.loginWithFacebook(result.accessToken)
                 }
 
-
                 override fun onCancel() {
-                    viewModel.onFacebookError("Login Cancelled")
+                    viewModel.onLoginError("Login cancelled")
                 }
 
                 override fun onError(error: FacebookException) {
-                    viewModel.onFacebookError(error.message ?: "Unknown Error")
+                    viewModel.onLoginError(error.message ?: "FB error")
                 }
             }
         )
     }
 
-    // google login
-    LaunchedEffect(Unit) {
-
-        setGoogleResultListener{ name, email ->
-            if(name == "ERROR"){
-                viewModel.onGoogleLoginError(email)
-            }else {
-                viewModel.onGoogleLoginSuccess(name, email)
-            }
-        }
-
-        viewModel.events.collect { event ->
-                when (event) {
-                    is LoginEvent.NavigateToHome -> {
-                        onLoginSuccess()
-                    }
-
-                    is LoginEvent.ShowError -> {
-                        snackBarHostState.showSnackbar(event.message)
-                    }
-                }
-            }
-
-    }
 
     Scaffold(
         snackbarHost = { SnackbarHost(snackBarHostState) }
@@ -305,8 +248,9 @@ fun LoginScreen(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    /*-- FACEBOOK LOGIN--*/
 
+
+                    /*-- FACEBOOK LOGIN--*/
                     Button(
                         onClick = {
                             LoginManager.getInstance().logInWithReadPermissions(
@@ -314,37 +258,38 @@ fun LoginScreen(
                                 listOf("email", "public_profile")
                             )
                         },
+                        enabled = !state.isSocialLoading,
                         colors = ButtonDefaults.buttonColors(containerColor = Color.Blue),
                         shape = MaterialTheme.shapes.medium,
                     )
                     {
-                        Text(stringResource(R.string.continue_with_fb))
+                        if (state.isSocialLoading) {
+                            CircularProgressIndicator(modifier = Modifier.size(18.dp))
+                        } else {
+                            Text(stringResource(R.string.continue_with_fb))
+                        }
                     }
 
-                    /*--- GOOGLE LOGIN ---*/
 
+                    /*--- GOOGLE LOGIN ---*/
                     Button(
                         onClick = {
-                            val signInIntent = googleSignInClient.signInIntent
-                            googleSignInLauncher.launch(signInIntent)
+                            googleLauncher.launch(viewModel.getGoogleSingInClient())
                         },
+                        enabled = !state.isSocialLoading,
                         colors = ButtonDefaults.buttonColors(
                             containerColor = Color.Blue.copy(alpha = 0.3f)
                         ),
                         shape = MaterialTheme.shapes.medium,
                     )
                     {
-                        Text(stringResource(R.string.continue_with_google))
+                        if(state.isSocialLoading){
+                            CircularProgressIndicator(modifier = Modifier.size(18.dp))
+                        }else {
+                            Text(stringResource(R.string.continue_with_google))
+                        }
                     }
 
-                }
-
-                if (authState is AuthUiState.Error) {
-                    Spacer(Modifier.height(12.dp))
-                    Text(
-                        text = (authState as AuthUiState.Error).message,
-                        color = MaterialTheme.colorScheme.error
-                    )
                 }
 
             }

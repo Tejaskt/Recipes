@@ -24,10 +24,10 @@ class RecipePagingSource(
 
         return try {
 
-            val response = if (category == "All"){
-                api.getRecipes( limit = limit, skip = skip)
-            }else{
-                api.getRecipeByMealType(category.lowercase(),limit,skip)
+            val response = if (category == "All") {
+                api.getRecipes(limit = limit, skip = skip)
+            } else {
+                api.getRecipeByMealType(category.lowercase(), limit, skip)
             }
 
             if (!response.isSuccessful) {
@@ -42,7 +42,7 @@ class RecipePagingSource(
             LoadResult.Page(
                 data = data,
                 prevKey = if (page == 0) null else page - 1,
-                nextKey = if(data.isEmpty()) null else page + 1
+                nextKey = if (data.isEmpty()) null else page + 1
             )
 
         } catch (e: Exception) {

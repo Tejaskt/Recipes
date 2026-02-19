@@ -41,13 +41,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil3.compose.AsyncImage
 import com.example.recipes.R
 import com.example.recipes.domain.model.User
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
 
 @Composable
 fun ProfileScreen(
     viewModel: ProfileViewModel = hiltViewModel(),
-    onLogout: () -> Unit,
-    googleSignInClient: GoogleSignInClient
+    onLogout: () -> Unit
 ) {
 
     val user by viewModel.user.collectAsState()
@@ -96,9 +94,7 @@ fun ProfileScreen(
 
             LogoutButton {
                 viewModel.logout()
-                googleSignInClient.signOut().addOnCompleteListener {
-                    onLogout()
-                }
+                onLogout()
             }
         }
 

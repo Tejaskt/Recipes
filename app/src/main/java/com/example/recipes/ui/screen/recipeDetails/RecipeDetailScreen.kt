@@ -210,52 +210,6 @@ fun IngredientInstructionTabs(recipe: Recipe) {
                 }
             }
         }
-
-        /*
-        if (selectedTab == 0) {
-            recipe.ingredients.forEach {
-                ListItem(
-                    leadingContent = {
-                        Icon(
-                            imageVector = Icons.Default.Circle,
-                            contentDescription = null,
-                            modifier = Modifier.size(6.dp),
-                            tint = MaterialTheme.colorScheme.primary
-                        )
-                    },
-                    headlineContent = {
-                        Text(it)
-                    }
-                )
-
-            }
-        } else {
-            recipe.instructions.forEachIndexed { index, step ->
-                ListItem(
-                    leadingContent = {
-                        Box(
-                            modifier = Modifier
-                                .size(28.dp)
-                                .background(
-                                    MaterialTheme.colorScheme.primary,
-                                    CircleShape
-                                ),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Text(
-                                text = (index + 1).toString(),
-                                color = MaterialTheme.colorScheme.onPrimary,
-                                style = MaterialTheme.typography.labelSmall
-                            )
-                        }
-                    },
-                    headlineContent = {
-                        Text(step)
-                    }
-                )
-
-            }
-        }*/
     }
 }
 

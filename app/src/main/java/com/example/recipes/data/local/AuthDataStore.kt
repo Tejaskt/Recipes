@@ -74,18 +74,17 @@ class AuthDataStore @Inject constructor(
             val email = prefs[EMAIL] ?: ""
             val image = prefs[IMAGE] ?: ""
 
-            User(userNm,firstNm,lastNm,email,image)
+            User(userNm, firstNm, lastNm, email, image)
         }
 
-
     suspend fun saveUser(
-        userNm : String,
-        firstName : String,
-        lastName : String,
-        email : String,
-        image : String,
-        token : String,
-    ){
+        userNm: String,
+        firstName: String,
+        lastName: String,
+        email: String,
+        image: String,
+        token: String,
+    ) {
         context.dataStore.edit { prefs ->
             prefs[USER_NM] = userNm
             prefs[FIRST_NAME] = firstName

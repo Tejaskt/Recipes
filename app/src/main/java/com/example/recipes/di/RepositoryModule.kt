@@ -2,8 +2,10 @@ package com.example.recipes.di
 
 import com.example.recipes.data.repository.AuthRepositoryImpl
 import com.example.recipes.data.repository.RecipeRepositoryImpl
+import com.example.recipes.data.repository.SocialAuthManagerImpl
 import com.example.recipes.domain.repository.AuthRepository
 import com.example.recipes.domain.repository.RecipeRepository
+import com.example.recipes.domain.repository.SocialAuthManager
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -25,6 +27,12 @@ abstract class RepositoryModule{
     abstract fun bindRecipeRepository(
         impl : RecipeRepositoryImpl
     ) : RecipeRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindSocialAuthManager(
+        impl : SocialAuthManagerImpl
+    ) : SocialAuthManager
 
 }
 

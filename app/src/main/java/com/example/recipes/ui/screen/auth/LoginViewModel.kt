@@ -1,11 +1,12 @@
 package com.example.recipes.ui.screen.auth
 
-import android.util.Log
+import android.content.Intent
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.recipes.domain.model.FacebookUser
 import com.example.recipes.domain.repository.AuthRepository
 import com.example.recipes.utils.NetworkResult
+import com.facebook.AccessToken
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,14 +18,16 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val authRepository: AuthRepository
+    private val authRepository: AuthRepository,
+    private val googleSignInClient : GoogleSignInClient,
 ) : ViewModel()
 {
 
+    // UI STATE
     private val _uiState = MutableStateFlow(LoginUiState())
     val uiState: StateFlow<LoginUiState> = _uiState
 
-    // event flow
+    // EVENT FLOW
     private val _events = MutableSharedFlow<LoginEvent>(
         replay = 0,
         extraBufferCapacity = 1
@@ -42,6 +45,7 @@ class LoginViewModel @Inject constructor(
 
 
     /*--- API LOGIN---*/
+
     fun login(onSuccess: () -> Unit) {
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true, error = null) }
@@ -64,47 +68,52 @@ class LoginViewModel @Inject constructor(
         }
     }
 
+    /*--- SOCIAL LOGINS ---*/
 
-    /*--- FACEBOOK LOGIN---*/
+    fun loginWithGoogle(intent: Intent?) {
+        viewModelScope.launch {
 
-    private val _authState = MutableStateFlow<AuthUiState>(AuthUiState.Idle)
-    val authState: StateFlow<AuthUiState> = _authState
+            _uiState.update { it.copy(isSocialLoading = true) }
 
-    fun onFacebookError(message: String) {
-        _authState.value = AuthUiState.Error(message)
+            val result = authRepository.loginWithGoogle(intent)
+
+            _uiState.update { it.copy(isSocialLoading = false) }
+
+            result
+                .onSuccess {
+                    _events.emit(LoginEvent.NavigateToHome)
+                }
+                .onFailure {
+                    _events.emit(LoginEvent.ShowError(it.message ?: "Google failed"))
+                }
+        }
+    }
+
+    fun loginWithFacebook(token: AccessToken) {
+        viewModelScope.launch {
+
+            _uiState.update { it.copy(isSocialLoading = true) }
+
+            val result = authRepository.loginWithFacebook(token)
+
+            _uiState.update { it.copy(isSocialLoading = false) }
+
+            result
+                .onSuccess {
+                    _events.emit(LoginEvent.NavigateToHome)
+                }
+                .onFailure {
+                    _events.emit(LoginEvent.ShowError(it.message ?: "Facebook failed"))
+                }
+        }
+    }
+
+    // GOOGLE SIGN IN CLIENT
+    fun getGoogleSingInClient() = googleSignInClient.signInIntent
+
+    fun onLoginError(message: String) {
         viewModelScope.launch {
             _events.emit(LoginEvent.ShowError(message))
         }
     }
-
-    fun onFacebookUserFetched(
-        name: String,
-        email: String,
-    ) {
-        _authState.value = AuthUiState.Success(FacebookUser(name, email))
-
-        viewModelScope.launch {
-            _events.emit(LoginEvent.NavigateToHome)
-        }
-    }
-
-    /*--- GOOGLE LOGIN---*/
-
-    fun onGoogleLoginSuccess(name : String,email : String) {
-        viewModelScope.launch {
-            Log.d("GOOGLE_USER", "Name: $name")
-
-            Log.d("GOOGLE_USER", "Email: $email")
-            _events.emit(LoginEvent.NavigateToHome)
-        }
-    }
-
-    fun onGoogleLoginError(message: String) {
-        viewModelScope.launch {
-            _events.emit(LoginEvent.ShowError(message))
-        }
-    }
-
-
-
 }
